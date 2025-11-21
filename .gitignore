@@ -1,0 +1,71 @@
+# Build outputs
+*.bs*.js
+/.cache/
+/dist/
+/.merlin
+/.bsb*.lock
+/lib/bs/
+/coverage/
+.vercel
+
+# Dependencies
+/yarn-error.log
+package-lock.json
+
+# Environment variables
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.backup
+*.env.backup
+
+# GraphQL
+/.graphql_ppx_cache/
+graphql_schema.json.new
+
+# Cypress
+/cypress/videos/
+/cypress/screenshots/
+/cypress/.DS_Store
+
+# OS generated files
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.icloud
+__MACOSX/
+
+# IDE and Editor files
+######################
+/.vscode/
+/.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+tmp/
+temp/

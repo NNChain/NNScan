@@ -1,0 +1,24 @@
+*.bs*.js
+/.cache/
+/dist/
+/.merlin
+/.bsb*.lock
+/node_modules/
+/.graphql_ppx_cache/
+/lib/bs/
+/coverage/
+*.icloud
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+/cypress/videos/
+/cypress/screenshots/
+/cypress/.DS_Store
+/.vscode
+.vercel

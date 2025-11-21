@@ -1,0 +1,8 @@
+{
+  "baseUrl": "https://nnscan.org/",
+  "pluginsFile": false,
+  "fixturesFolder": false,
+  "defaultCommandTimeout": 10000,
+  "videoUploadOnPasses": false,
+  "projectId": "gva981"
+}
