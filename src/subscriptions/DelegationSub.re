@@ -131,12 +131,18 @@ let getTotalStakeByDelegator = delegatorAddress => {
   let delegatorInfoSub =
     result
     |> Sub.map(_, a =>
-         (a##delegations_view_aggregate##aggregate |> Belt_Option.getExn)##sum
-         |> Belt_Option.getExn
+         switch (a##delegations_view_aggregate##aggregate) {
+         | Some(aggregate) =>
+           switch (aggregate##sum) {
+           | Some(sum) => {amount: sum##amount, reward: sum##reward}
+           | None => {amount: GraphQLParser.coinWithDefault(None), reward: GraphQLParser.coinWithDefault(None)}
+           }
+         | None => {amount: GraphQLParser.coinWithDefault(None), reward: GraphQLParser.coinWithDefault(None)}
+         }
        );
 
   let%Sub delegatorInfo = delegatorInfoSub;
-  {amount: delegatorInfo##amount, reward: delegatorInfo##reward} |> Sub.resolve;
+  {amount: delegatorInfo.amount, reward: delegatorInfo.reward} |> Sub.resolve;
 };
 
 let getStakeByValidator = (delegatorAddress, operatorAddress) => {

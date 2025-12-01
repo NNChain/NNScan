@@ -119,7 +119,7 @@ let make = (~chainID) => {
                  <Text value="Please check that you are visiting" size=Text.Lg />
                  <HSpacing size=Spacing.sm />
                  <Text
-                   value="https://www.cosmoscan.io"
+                   value="https://www.nnscan.org"
                    size=Text.Lg
                    weight=Text.Medium
                    color={theme.textPrimary}

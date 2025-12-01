@@ -5,7 +5,8 @@ exception WrongPrefixAddress(string);
 
 let validateBandPrefix = bech32Address => {
   let prefix = bech32Address->Bech32.prefixGet;
-  prefix == "band" || prefix == "bandvaloper" || prefix == "bandvalconspub";
+  prefix == "band" || prefix == "bandvaloper" || prefix == "bandvalconspub" 
+  || prefix == "nnc" || prefix == "nncvaloper" || prefix == "nncvalconspub";
 };
 
 let fromBech32 = bech32str => {
@@ -44,11 +45,11 @@ let bech32ToHex = bech32str => bech32str->fromBech32->toHex;
 let toOperatorBech32 =
   fun
   | Address(hexstr) =>
-    hexstr |> JsBuffer.hexToArray |> Bech32.toWords |> Bech32.encode("bandvaloper");
+    hexstr |> JsBuffer.hexToArray |> Bech32.toWords |> Bech32.encode("nncvaloper");
 
 let toBech32 =
   fun
-  | Address(hexstr) => hexstr |> JsBuffer.hexToArray |> Bech32.toWords |> Bech32.encode("band");
+  | Address(hexstr) => hexstr |> JsBuffer.hexToArray |> Bech32.toWords |> Bech32.encode("nnc");
 
 let hexToOperatorBech32 = hexstr => hexstr->fromHex->toOperatorBech32;
 let hexToBech32 = hexstr => hexstr->fromHex->toBech32;

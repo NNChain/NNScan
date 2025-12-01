@@ -302,7 +302,7 @@ let make = (~txHash) => {
               <Row marginBottom=24 alignItems=Row.Center>
                 <Col col=Col.Four mbSm=8>
                   <Heading
-                    value="Gas Price (UBAND)"
+                    value="Gas Price (UNNC)"
                     size=Heading.H4
                     weight=Heading.Thin
                     color={theme.textSecondary}
@@ -327,7 +327,7 @@ let make = (~txHash) => {
               <Row marginBottom=24 alignItems=Row.Center>
                 <Col col=Col.Four mbSm=8>
                   <Heading
-                    value="Fee (BAND)"
+                    value="Fee (NNC)"
                     size=Heading.H4
                     weight=Heading.Thin
                     color={theme.textSecondary}

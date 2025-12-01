@@ -66,12 +66,15 @@ let make =
       ~showName=true,
     ) => {
   let isValidator = accountType == `validator;
-  let prefix = isValidator ? "bandvaloper" : "band";
-
-  let noPrefixAddress =
-    isValidator
-      ? address |> Address.toOperatorBech32 |> Js.String.sliceToEnd(~from=11)
-      : address |> Address.toBech32 |> Js.String.sliceToEnd(~from=4);
+  
+  let bech32Address =
+    isValidator ? address |> Address.toOperatorBech32 : address |> Address.toBech32;
+  
+  let decoded = bech32Address->Bech32.decode;
+  let prefix = decoded->Bech32.prefixGet;
+  let prefixLength = prefix |> Js.String.length;
+  // Bech32 format is "prefix1address", so we need to skip prefix + "1" separator
+  let noPrefixAddress = bech32Address |> Js.String.sliceToEnd(~from=prefixLength + 1);
 
   let addressLength = noPrefixAddress |> Js.String.length;
 
@@ -127,9 +130,7 @@ let make =
                | _ => 12
                }
              }
-             message={
-               isValidator ? address |> Address.toOperatorBech32 : address |> Address.toBech32
-             }
+             message=bech32Address
            />
          </>
        : React.null}

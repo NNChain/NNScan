@@ -47,6 +47,7 @@ __MACOSX/
 ######################
 /.vscode/
 /.idea/
+/.cursor/
 *.swp
 *.swo
 *~

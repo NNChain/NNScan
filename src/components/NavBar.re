@@ -5,13 +5,15 @@ module RenderDesktop = {
     let nav = (isActive, theme: Theme.t) =>
       style([
         padding3(~top=`px(16), ~h=`zero, ~bottom=`px(12)),
+        marginRight(`px(24)),
         cursor(`pointer),
-        fontSize(`px(12)),
+        fontSize(`px(14)),
         hover([color(theme.textPrimary)]),
         active([color(theme.textPrimary)]),
         transition(~duration=400, "all"),
         color(isActive ? theme.textPrimary : theme.textSecondary),
         borderBottom(`px(4), `solid, isActive ? theme.baseBlue : `transparent),
+        lastChild([marginRight(`zero)]),
       ]);
   };
 
@@ -21,14 +23,12 @@ module RenderDesktop = {
 
     let ({ThemeContext.theme}, _) = React.useContext(ThemeContext.context);
 
-    <div className={CssHelper.flexBox(~justify=`spaceBetween, ())} id="navigationBar">
+    <div className={CssHelper.flexBox(~justify=`flexStart, ())} id="navigationBar">
       {routes
        ->Belt.List.map(((v, route)) =>
-           <div key=v className={CssHelper.flexBox(~justify=`spaceBetween, ())}>
-             <Link className={Styles.nav(currentRoute == route, theme)} route>
-               {v |> React.string}
-             </Link>
-           </div>
+           <Link key=v className={Styles.nav(currentRoute == route, theme)} route>
+             {v |> React.string}
+           </Link>
          )
        ->Array.of_list
        ->React.array}
@@ -144,11 +144,7 @@ let make = () => {
     ("Validators", ValidatorHomePage),
     ("Blocks", BlockHomePage),
     ("Transactions", TxHomePage),
-    ("Proposals", ProposalHomePage),
-    ("Data Sources", DataSourceHomePage),
     ("Oracle Scripts", OracleScriptHomePage),
-    ("Requests", RequestHomePage),
-    ("IBCs", IBCHomePage),
   ];
 
   Media.isMobile() ? <RenderMobile routes /> : <RenderDesktop routes />;

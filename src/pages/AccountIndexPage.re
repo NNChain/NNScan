@@ -85,7 +85,7 @@ module BalanceDetails = {
                  />}
             <HSpacing size=Spacing.sm />
             <Text
-              value="BAND"
+              value="NNC"
               size=Text.Lg
               weight=Text.Thin
               nowrap=true
@@ -153,7 +153,7 @@ module TotalBalanceRender = {
         ])}>
         <NumberCountup value=amountBAND size=Text.Xxxl weight=Text.Regular smallNumber=true />
         <HSpacing size=Spacing.sm />
-        <Text value="BAND" size=Text.Lg code=false weight=Text.Thin color={theme.textPrimary} />
+        <Text value="NNC" size=Text.Lg code=false weight=Text.Thin color={theme.textPrimary} />
       </div>
       <div className={CssHelper.flexBox()}>
         <NumberCountup
@@ -301,7 +301,7 @@ let make = (~address, ~hashtag: Route.account_tab_t) => {
                            when Address.isEqual(sender, address) => React.null
                        | (Data((_, _, _, _, {chainID})), _) =>
                          <Button variant=Button.Outline onClick={_ => {send(chainID)}}>
-                           {"Send BAND" |> React.string}
+                           {"Send NNC" |> React.string}
                          </Button>
                        | _ => <LoadingCensorBar width=90 height=26 />
                        };

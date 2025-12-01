@@ -12,15 +12,6 @@ module Styles = {
     style([
       boxShadow(Shadow.box(~x=`zero, ~y=`px(2), ~blur=`px(4), Css.rgba(0, 0, 0, `num(0.2)))),
     ]);
-
-  let allRequestLink = (theme: Theme.t) =>
-    style([
-      backgroundColor(theme.baseBlue),
-      borderRadius(`px(8)),
-      width(`px(32)),
-      height(`px(32)),
-      hover([backgroundColor(theme.darkBlue)]),
-    ]);
 };
 
 module RenderBody = {
@@ -106,7 +97,7 @@ module RenderBodyMobile = {
 [@react.component]
 let make = (~latest5RequestSub: Sub.t(array(RequestSub.t))) => {
   let isMobile = Media.isMobile();
-  let (ThemeContext.{theme, isDarkMode}, _) = React.useContext(ThemeContext.context);
+  let (ThemeContext.{isDarkMode}, _) = React.useContext(ThemeContext.context);
 
   <Table>
     <Row marginTop=30 marginBottom=25 marginTopSm=24 marginBottomSm=0 alignItems=Row.Center>
@@ -134,17 +125,7 @@ let make = (~latest5RequestSub: Sub.t(array(RequestSub.t))) => {
       </Col>
       <Col col=Col.Six colSm=Col.Six>
         <div className={CssHelper.flexBox(~justify=`flexEnd, ())}>
-          {isMobile ? React.null : <Heading value="More Requests" size=Heading.H4 />}
-          <HSpacing size=Spacing.md />
-          <Link className={CssHelper.flexBox(~align=`center, ())} route=Route.RequestHomePage>
-            <div
-              className={Css.merge([
-                Styles.allRequestLink(theme),
-                CssHelper.flexBox(~justify=`center, ()),
-              ])}>
-              <Icon name="far fa-arrow-right" color={theme.white} />
-            </div>
-          </Link>
+          {isMobile ? React.null : React.null}
         </div>
       </Col>
     </Row>

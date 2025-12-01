@@ -79,8 +79,12 @@ let toExternal =
     let%Opt tx = txOpt;
     Some(tx.block.timestamp);
   },
-  relatedDataSources:
-    relatedDataSources->Belt.Array.map(({dataSource}) => dataSource)->Belt.List.fromArray,
+  relatedDataSources: {
+    let result = relatedDataSources->Belt.Array.map(({dataSource}) => dataSource)->Belt.List.fromArray;
+    Js.log2("OracleScriptSub.toExternal - relatedDataSources count:", result->Belt.List.size);
+    Js.log2("OracleScriptSub.toExternal - relatedDataSources array length:", relatedDataSources->Belt.Array.length);
+    result;
+  },
   // Note: requestCount can't be nullable value.
   requestCount: requestStatOpt->Belt.Option.map(({count}) => count)->Belt.Option.getExn,
   version,
@@ -187,9 +191,15 @@ let get = id => {
       ~variables=SingleConfig.makeVariables(~id=id |> ID.OracleScript.toInt, ()),
     );
   let%Sub x = result;
+  Js.log2("OracleScriptSub.get - result:", x);
+  Js.log2("OracleScriptSub.get - oracle_scripts_by_pk:", x##oracle_scripts_by_pk);
   switch (x##oracle_scripts_by_pk) {
-  | Some(data) => Sub.resolve(data |> toExternal)
-  | None => NoData
+  | Some(data) => 
+    Js.log2("OracleScriptSub.get - calling toExternal with data:", data);
+    Sub.resolve(data |> toExternal)
+  | None => 
+    Js.log("OracleScriptSub.get - oracle_scripts_by_pk is None, returning NoData");
+    NoData
   };
 };
 

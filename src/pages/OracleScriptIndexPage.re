@@ -145,24 +145,28 @@ module Content = {
                   <div className=Styles.relatedDSContainer>
                     {switch (oracleScriptSub) {
                      | Data({relatedDataSources}) =>
-                       relatedDataSources->Belt.List.size > 0
-                         ? relatedDataSources
-                           ->Belt.List.map(({dataSourceName, dataSourceID}) =>
-                               <div
-                                 key={dataSourceID |> ID.DataSource.toString}
-                                 className={CssHelper.flexBox()}>
-                                 <TypeID.DataSource id=dataSourceID position=TypeID.Subtitle />
-                                 <Text
-                                   value=dataSourceName
-                                   size=Text.Lg
-                                   block=true
-                                   color={theme.textPrimary}
-                                 />
-                               </div>
-                             )
-                           ->Belt.List.toArray
-                           ->React.array
-                         : <Text value="TBD" />
+                       {
+                         Js.log2("OracleScriptIndexPage - relatedDataSources received:", relatedDataSources);
+                         Js.log2("OracleScriptIndexPage - relatedDataSources size:", relatedDataSources->Belt.List.size);
+                         relatedDataSources->Belt.List.size > 0
+                           ? relatedDataSources
+                             ->Belt.List.map(({dataSourceName, dataSourceID}) =>
+                                 <div
+                                   key={dataSourceID |> ID.DataSource.toString}
+                                   className={CssHelper.flexBox()}>
+                                   <TypeID.DataSource id=dataSourceID position=TypeID.Subtitle />
+                                   <Text
+                                     value=dataSourceName
+                                     size=Text.Lg
+                                     block=true
+                                     color={theme.textPrimary}
+                                   />
+                                 </div>
+                               )
+                             ->Belt.List.toArray
+                             ->React.array
+                           : <Text value="TBD" />
+                       }
 
                      | _ => <LoadingCensorBar width=284 height=15 />
                      }}
