@@ -16,14 +16,7 @@ module Styles = {
     ]);
 
   let bandLogo =
-    style([
-      width(`px(191)),
-      height(`px(60)),
-      objectFit(`cover),
-      objectPosition(`left),
-      marginRight(`px(5)),
-      Media.mobile([width(`px(191)), height(`px(60))]),
-    ]);
+    style([width(`px(40)), marginRight(`px(5)), Media.mobile([width(`px(34))])]);
 
   let blockImage = style([display(`block)]);
 
@@ -51,7 +44,7 @@ module LinkToHome = {
 module DesktopRender = {
   [@react.component]
   let make = () => {
-    let ({ThemeContext.theme, isDarkMode}, _) = React.useContext(ThemeContext.context);
+    let ({ThemeContext.theme}, _) = React.useContext(ThemeContext.context);
 
     <header className={Styles.header(theme)}>
       <div className=CssHelper.container>
@@ -59,7 +52,21 @@ module DesktopRender = {
           <Col col=Col.Six>
             <div className={CssHelper.flexBox(~align=`center, ())}>
               <LinkToHome>
-                <img alt="NNChain" src={isDarkMode ? Images.nnscanLogoDark : Images.nnscanLogoLight} className=Styles.bandLogo />
+                <div className={CssHelper.flexBox(~align=`center, ())}>
+                  <img alt="Band Protocol" src=Images.bandLogo className=Styles.bandLogo />
+                  <div>
+                   
+                    <br />
+                    <Text
+                      value="CosmoScan"
+                      nowrap=true
+                      size=Text.Sm
+                      weight=Text.Semibold
+                      color={theme.textPrimary}
+                      special=true
+                    />
+                  </div>
+                </div>
               </LinkToHome>
               <div className=Styles.chainIDContainer> <ChainIDBadge /> </div>
             </div>
@@ -92,7 +99,7 @@ module DesktopRender = {
 module MobileRender = {
   [@react.component]
   let make = () => {
-    let ({ThemeContext.theme, isDarkMode}, _) = React.useContext(ThemeContext.context);
+    let ({ThemeContext.theme}, _) = React.useContext(ThemeContext.context);
 
     <header className={Styles.header(theme)}>
       <Row alignItems=Row.Center>
@@ -100,10 +107,31 @@ module MobileRender = {
           <div className={CssHelper.flexBox(~align=`flexEnd, ())}>
             <LinkToHome>
               <img
-                alt="NNChain"
-                src={isDarkMode ? Images.nnscanLogoDark : Images.nnscanLogoLight}
+                alt="Band Protocol"
+                src=Images.bandLogo
                 className={Css.merge([Styles.bandLogo, Styles.blockImage])}
               />
+            </LinkToHome>
+            <HSpacing size=Spacing.sm />
+            <LinkToHome>
+              <div className={CssHelper.flexBox(~direction=`column, ~align=`flexStart, ())}>
+                <Text
+                  value="BANDCHAIN"
+                  size=Text.Md
+                  weight=Text.Bold
+                  nowrap=true
+                  color={theme.textPrimary}
+                  spacing={Text.Em(0.05)}
+                />
+                <VSpacing size=Spacing.xs />
+                <Text
+                  value="CosmoScan"
+                  nowrap=true
+                  size=Text.Sm
+                  color={theme.textSecondary}
+                  spacing={Text.Em(0.03)}
+                />
+              </div>
             </LinkToHome>
           </div>
         </Col>

@@ -89,7 +89,7 @@ module RenderBodyMobile = {
         values=InfoMobileCard.[
           ("TX Hash", TxHash(txHash, isSmallMobile ? 170 : 200)),
           ("Block", Height(blockHeight)),
-          ("Gas Fee\n(BAND)", Coin({value: gasFee, hasDenom: false})),
+          ("Gas Fee\n(NNC)", Coin({value: gasFee, hasDenom: false})),
           ("Actions", Messages(txHash, msgTransform, success, errMsg)),
         ]
         key={txHash |> Hash.toHex}
@@ -101,7 +101,7 @@ module RenderBodyMobile = {
         values=InfoMobileCard.[
           ("TX Hash", Loading(isSmallMobile ? 170 : 200)),
           ("Block", Loading(70)),
-          ("Gas Fee\n(BAND)", Loading(70)),
+          ("Gas Fee\n(NNC)", Loading(70)),
           (
             "Actions",
             Loading(

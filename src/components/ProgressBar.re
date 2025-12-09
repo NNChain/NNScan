@@ -137,7 +137,7 @@ module Deposit = {
           CssHelper.flexBox(~justify=`spaceBetween, ()),
         ])}>
         <Text
-          value={j|Min Deposit $formatedMinDeposit BAND|j}
+          value={j|Min Deposit $formatedMinDeposit NNC|j}
           color={theme.textSecondary}
           size=Text.Lg
         />
@@ -179,7 +179,7 @@ module Voting = {
                  <Text value="/" size=Text.Lg block=true />
                  <HSpacing size=Spacing.sm />
                  <Text
-                   value={(amount |> Format.fPretty(~digits=2)) ++ " BAND"}
+                   value={(amount |> Format.fPretty(~digits=2)) ++ " NNC"}
                    size=Text.Lg
                    block=true
                    color={theme.textPrimary}

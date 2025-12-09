@@ -12,6 +12,15 @@ module Styles = {
     style([
       boxShadow(Shadow.box(~x=`zero, ~y=`px(2), ~blur=`px(4), Css.rgba(0, 0, 0, `num(0.2)))),
     ]);
+
+  let allRequestLink = (theme: Theme.t) =>
+    style([
+      backgroundColor(theme.baseBlue),
+      borderRadius(`px(8)),
+      width(`px(32)),
+      height(`px(32)),
+      hover([backgroundColor(theme.darkBlue)]),
+    ]);
 };
 
 module RenderBody = {
@@ -97,7 +106,7 @@ module RenderBodyMobile = {
 [@react.component]
 let make = (~latest5RequestSub: Sub.t(array(RequestSub.t))) => {
   let isMobile = Media.isMobile();
-  let (ThemeContext.{isDarkMode}, _) = React.useContext(ThemeContext.context);
+  let (ThemeContext.{theme, isDarkMode}, _) = React.useContext(ThemeContext.context);
 
   <Table>
     <Row marginTop=30 marginBottom=25 marginTopSm=24 marginBottomSm=0 alignItems=Row.Center>

@@ -18,7 +18,7 @@ let make = (~address, ~receiver, ~setMsgsOpt, ~targetChain) => {
         let%Opt amountValue = amount.value;
 
         let coin = BandChainJS.Coin.create();
-        coin->BandChainJS.Coin.setDenom("uband");
+        coin->BandChainJS.Coin.setDenom("unnc");
         coin->BandChainJS.Coin.setAmount(amountValue |> Js.Float.toString);
 
         switch (targetChain) {
@@ -61,7 +61,7 @@ let make = (~address, ~receiver, ~setMsgsOpt, ~targetChain) => {
              value={balance |> Coin.getBandAmountFromCoins |> Format.fPretty(~digits=6)}
              code=true
            />
-           <Text value=" BAND" />
+           <Text value=" NNC" />
          </div>
        | _ => <LoadingCensorBar width=150 height=18 />
        }}
@@ -98,7 +98,7 @@ let make = (~address, ~receiver, ~setMsgsOpt, ~targetChain) => {
          setInputData=setAmount
          parse={Parse.getBandAmount(maxValInUband)}
          maxValue={maxValInUband /. 1e6 |> Js.Float.toString}
-         msg="Send Amount (BAND)"
+         msg="Send Amount (NNC)"
          inputType="number"
          code=true
          placeholder="0.000000"
@@ -113,7 +113,7 @@ let make = (~address, ~receiver, ~setMsgsOpt, ~targetChain) => {
        />;
      | _ =>
        <EnhanceTxInput.Loading
-         msg="Send Amount (BAND)"
+         msg="Send Amount (NNC)"
          code=true
          useMax=true
          placeholder="0.000000"

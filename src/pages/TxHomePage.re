@@ -68,7 +68,7 @@ let make = () => {
                  <Col col=Col.Two>
                    <Text
                      block=true
-                     value="Gas Fee (BAND)"
+                     value="Gas Fee (NNC)"
                      weight=Text.Semibold
                      transform=Text.Uppercase
                      size=Text.Sm

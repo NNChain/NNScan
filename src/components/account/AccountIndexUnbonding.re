@@ -70,7 +70,7 @@ module RenderBodyMobile = {
       <MobileCard
         values=InfoMobileCard.[
           ("Validator", Validator(operatorAddress, moniker, identity)),
-          ("Amount\n(BAND)", Coin({value: [amount], hasDenom: false})),
+          ("Amount\n(NNC)", Coin({value: [amount], hasDenom: false})),
           ("Unbonded At", Timestamp(completionTime)),
         ]
         key=key_
@@ -80,7 +80,7 @@ module RenderBodyMobile = {
       <MobileCard
         values=InfoMobileCard.[
           ("Validator", Loading(230)),
-          ("Amount\n(BAND)", Loading(230)),
+          ("Amount\n(NNC)", Loading(230)),
           ("Unbonded At", Loading(230)),
         ]
         key={reserveIndex |> string_of_int}
@@ -160,7 +160,7 @@ let make = (~address) => {
              <Col col=Col.Three>
                <Text
                  block=true
-                 value="Amount (BAND)"
+                 value="Amount (NNC)"
                  weight=Text.Semibold
                  size=Text.Sm
                  transform=Text.Uppercase

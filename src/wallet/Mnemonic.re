@@ -8,7 +8,7 @@ let create = mnemonic => {
   // Just use arbitrary rpcUrl, chainID beacuase they didn't use in CosmosJS
   let bandChain = CosmosJS.network("rpcUrl", "chainID");
   bandChain->CosmosJS.setPath("m/44'/494'/0'/0/0");
-  bandChain->CosmosJS.setBech32MainPrefix("band");
+  bandChain->CosmosJS.setBech32MainPrefix("nnc");
   let privKey = bandChain |> CosmosJS.getECPairPriv(_, mnemonic);
   {bandChain, mnemonic, privKey};
 };

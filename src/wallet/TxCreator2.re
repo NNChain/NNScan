@@ -97,7 +97,7 @@ let createRawTx = (~sender, ~msgs, ~chainID, ~feeAmount, ~gas, ~memo, ~client, (
   let senderStr = sender |> Address.toBech32;
 
   let feeCoin = BandChainJS.Coin.create();
-  feeCoin->BandChainJS.Coin.setDenom("uband");
+  feeCoin->BandChainJS.Coin.setDenom("unnc");
   feeCoin->BandChainJS.Coin.setAmount(feeAmount);
 
   let fee = BandChainJS.Fee.create();

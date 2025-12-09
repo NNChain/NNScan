@@ -278,7 +278,7 @@ let createRawTx = (~address, ~msgs, ~chainID, ~feeAmount, ~gas, ~memo, ()) => {
     msgs: msgs->Belt_Array.map(createMsg(address)),
     chain_id: chainID,
     fee: {
-      amount: [|{amount: feeAmount, denom: "uband"}|],
+      amount: [|{amount: feeAmount, denom: "unnc"}|],
       gas,
     },
     memo,

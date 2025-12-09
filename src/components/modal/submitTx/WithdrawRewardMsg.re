@@ -66,7 +66,7 @@ let make = (~address, ~validator, ~setMsgsOpt) => {
              spacing={Text.Em(0.)}
              size=Text.Md
            />
-           <Text value=" BAND" />
+           <Text value=" NNC" />
          </div>
        | _ => <LoadingCensorBar width=150 height=18 />
        }}

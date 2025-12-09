@@ -66,6 +66,7 @@ type proposal_status_t =
   | Failed;
 
 let parseProposalStatus = json => {
+  exception NotFound(string);
   let status = json |> Js.Json.decodeString |> Belt_Option.getExn;
   switch (status) {
   | "DepositPeriod" => Deposit
@@ -73,8 +74,7 @@ let parseProposalStatus = json => {
   | "Passed" => Passed
   | "Rejected" => Rejected
   | "Failed" => Failed
-  | "Inactive" => Failed  // Handle Inactive status gracefully
-  | _ => Failed  // Default to Failed for unknown statuses instead of raising exception
+  | _ => raise(NotFound("The proposal status is not existing"))
   };
 };
 
@@ -254,14 +254,7 @@ let getList = (~page, ~pageSize, ()) => {
       MultiConfig.definition,
       ~variables=MultiConfig.makeVariables(~limit=pageSize, ~offset, ()),
     );
-  result |> Sub.map(_, internal => 
-    internal##proposals
-    ->Belt_Array.keepMap(_, proposal => {
-        try (Some(proposal |> toExternal)) {
-        | _ => None  // Skip proposals that fail to parse (e.g., missing title)
-        }
-      })
-  );
+  result |> Sub.map(_, internal => internal##proposals->Belt_Array.map(toExternal));
 };
 
 let get = id => {

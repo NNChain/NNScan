@@ -24,7 +24,7 @@ let make = (~targetChain) => {
 
   let (imgSrc, name) =
     switch (targetChain) {
-    | IBCConnectionQuery.BAND => (Images.bandLogo, "Band")
+    | IBCConnectionQuery.BAND => (Images.bandLogo, "NNC")
     | IBC({imgSrc, name}) => (imgSrc, name)
     };
 

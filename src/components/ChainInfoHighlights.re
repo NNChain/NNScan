@@ -21,12 +21,24 @@ module Styles = {
 
   let fullWidth = style([width(`percent(100.))]);
 
+  let specialBg = (isDarkMode: bool) =>
+    style([
+      backgroundImage(
+        `linearGradient((
+          `deg(270.),
+          isDarkMode
+            ? [(`percent(0.), hex("58595B")), (`percent(100.), hex("231F20"))]
+            : [(`percent(0.), hex("F5F5F5")), (`percent(100.), hex("E5E5E5"))],
+        )),
+      ),
+    ]);
+
   let bandToken = (isDarkMode: bool) =>
     style([
       position(`absolute),
-      width(`px(85)),
-      top(`px(-25)),
-      right(`px(-8)),
+      width(`px(140)),
+      top(`px(-35)),
+      right(`px(-15)),
       zIndex(1),
       opacity(1.0),
       filter([
@@ -36,7 +48,7 @@ module Styles = {
       ]),
       transform(rotateY(`deg(5.))),
       transition(~duration=200, ~timingFunction=`easeOut, "all"),
-      Media.mobile([width(`px(70)), top(`px(-20)), right(`px(-5))]),
+      Media.mobile([width(`px(110)), top(`px(-30)), right(`px(-10))]),
     ]);
 };
 
@@ -45,9 +57,10 @@ module HighlightCard = {
   let make =
       (~label, ~valueAndExtraComponentSub: ApolloHooks.Subscription.variant(_), ~special=false) => {
     let (ThemeContext.{theme, isDarkMode}, _) = React.useContext(ThemeContext.context);
+    let isMobile = Media.isMobile();
 
-    <div className=Styles.card(theme)>
-      {special
+    <div className={Css.merge([Styles.card(theme), special ? Styles.specialBg(isDarkMode) : ""])}>
+      {special && !isMobile
          ? <img alt="NNC Coin" src=Images.nncCoin className={Styles.bandToken(isDarkMode)} /> : React.null}
       <div
         id={"highlight-" ++ label}
@@ -73,7 +86,7 @@ module HighlightCard = {
 [@react.component]
 let make = (~latestBlockSub: Sub.t(BlockSub.t)) => {
   let infoSub = React.useContext(GlobalContext.context);
-  let (ThemeContext.{theme}, _) = React.useContext(ThemeContext.context);
+  let (ThemeContext.{theme, isDarkMode}, _) = React.useContext(ThemeContext.context);
   let activeValidatorCountSub = ValidatorSub.countByActive(true);
   let bondedTokenCountSub = ValidatorSub.getTotalBondedAmount();
 
@@ -82,30 +95,65 @@ let make = (~latestBlockSub: Sub.t(BlockSub.t)) => {
 
   <Row justify=Row.Between>
     <Col col=Col.Three colSm=Col.Six mbSm=16>
+      // ORIGINAL BLOCK - Commented out (fetches real data from API)
+      // <HighlightCard
+      //   label="NNC Price"
+      //   special=true
+      //   valueAndExtraComponentSub={
+      //     let%Sub (_, {financial}, _) = allSub;
+      //     (
+      //       {
+      //         let bandPriceInUSD = "$" ++ (financial.usdPrice |> Format.fPretty(~digits=2));
+      //         <Text
+      //           value=bandPriceInUSD
+      //           size=Text.Xxxl
+      //           weight=Text.Semibold
+      //           color={theme.white}
+      //         />;
+      //       },
+      //       {
+      //         let bandPriceInBTC = financial.btcPrice;
+      //
+      //         <div
+      //           className={Css.merge([
+      //             CssHelper.flexBox(~justify=`spaceBetween, ()),
+      //             Styles.fullWidth,
+      //           ])}>
+      //           <Text value={bandPriceInBTC->Format.fPretty ++ " BTC"} />
+      //         </div>;
+      //       },
+      //     )
+      //     |> Sub.resolve;
+      //   }
+      // />
+      
       <HighlightCard
         label="NNC Price"
         special=true
         valueAndExtraComponentSub={
           let%Sub (_, {financial}, _) = allSub;
+          let (ThemeContext.{theme, isDarkMode}, _) = React.useContext(ThemeContext.context);
           (
             {
-              let bandPriceInUSD = "$" ++ (financial.usdPrice |> Format.fPretty(~digits=2));
+              let nncPriceInUSD = "$" ++ (financial.usdPrice |> Format.fPretty(~digits=2));
               <Text
-                value=bandPriceInUSD
+                value=nncPriceInUSD
                 size=Text.Xxxl
                 weight=Text.Semibold
-                color={theme.textPrimary}
+                color={isDarkMode ? theme.white : theme.textPrimary}
               />;
             },
             {
-              let bandPriceInBTC = financial.btcPrice;
-
+              let nncPriceInBTC = financial.btcPrice;
               <div
                 className={Css.merge([
                   CssHelper.flexBox(~justify=`spaceBetween, ()),
                   Styles.fullWidth,
                 ])}>
-                <Text value={bandPriceInBTC->Format.fPretty ++ " BTC"} />
+                <Text 
+                  value={(nncPriceInBTC |> Format.fPretty) ++ " BTC"} 
+                  color={isDarkMode ? theme.white : theme.textPrimary}
+                />
               </div>;
             },
           )
@@ -173,7 +221,7 @@ let make = (~latestBlockSub: Sub.t(BlockSub.t)) => {
             <Text
               value={
                 (bondedTokenCount |> Coin.getBandAmountFromCoin |> Format.fPretty)
-                ++ " NNC"
+                ++ " NNC Bonded"
               }
             />,
           )

@@ -132,20 +132,16 @@ module Content = {
             tabs=[|
               {
                 name: "Requests",
-                route: dataSourceID |> ID.DataSource.getRouteWithTab(_, Route.DataSourceRequests),
+                route: Route.NotFound,
               },
               {
                 name: "Code",
-                route: dataSourceID |> ID.DataSource.getRouteWithTab(_, Route.DataSourceCode),
+                route: Route.NotFound,
               },
               {
                 name: "Test Execution",
-                route: dataSourceID |> ID.DataSource.getRouteWithTab(_, Route.DataSourceExecute),
+                route: Route.NotFound,
               },
-              // {
-              //   name: "Revisions",
-              //   route: dataSourceID |> ID.DataSource.getRouteWithTab(_, Route.DataSourceRevisions),
-              // },
             |]
             currentRoute={dataSourceID |> ID.DataSource.getRouteWithTab(_, hashtag)}>
             {switch (hashtag) {

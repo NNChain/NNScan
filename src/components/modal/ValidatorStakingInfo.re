@@ -109,7 +109,7 @@ module DisplayBalance = {
                block=true
              />}
         <HSpacing size=Spacing.sm />
-        <Text value="BAND" size=Text.Lg color={theme.textSecondary} block=true />
+        <Text value="NNC" size=Text.Lg color={theme.textSecondary} block=true />
       </div>
       <div className={CssHelper.flexBox()}>
         {isCountup

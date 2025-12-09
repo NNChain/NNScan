@@ -116,8 +116,8 @@ module RenderBodyMobile = {
       <MobileCard
         values=InfoMobileCard.[
           ("Validator", Validator(operatorAddress, moniker, identity)),
-          ("Amount\n(BAND)", Coin({value: [amount], hasDenom: false})),
-          ("Reward\n(BAND)", Coin({value: [reward], hasDenom: false})),
+          ("Amount\n(NNC)", Coin({value: [amount], hasDenom: false})),
+          ("Reward\n(NNC)", Coin({value: [reward], hasDenom: false})),
         ]
         key=key_
         idx=key_
@@ -126,8 +126,8 @@ module RenderBodyMobile = {
       <MobileCard
         values=InfoMobileCard.[
           ("Validator", Loading(230)),
-          ("Amount\n(BAND)", Loading(100)),
-          ("Reward\n(BAND)", Loading(100)),
+          ("Amount\n(NNC)", Loading(100)),
+          ("Reward\n(NNC)", Loading(100)),
         ]
         key={reserveIndex |> string_of_int}
         idx={reserveIndex |> string_of_int}
@@ -201,7 +201,7 @@ let make = (~address) => {
              <Col col=Col.Four>
                <Text
                  block=true
-                 value="Amount (BAND)"
+                 value="Amount (NNC)"
                  weight=Text.Semibold
                  size=Text.Sm
                  transform=Text.Uppercase
@@ -210,7 +210,7 @@ let make = (~address) => {
              <Col col=Col.Four>
                <Text
                  block=true
-                 value="Reward (BAND)"
+                 value="Reward (NNC)"
                  weight=Text.Semibold
                  size=Text.Sm
                  transform=Text.Uppercase

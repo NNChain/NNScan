@@ -43,41 +43,70 @@ module Styles = {
       padding2(~v=`px(5), ~h=`px(10)),
       hover([backgroundColor(theme.dropdownHover)]),
     ]);
-
-  let linkDisabled = (theme: Theme.t) =>
-    style([
-      textDecoration(`none),
-      backgroundColor(theme.secondaryBg),
-      display(`block),
-      padding2(~v=`px(5), ~h=`px(10)),
-      opacity(0.5),
-      cursor(`notAllowed),
-      pointerEvents(`none),
-    ]);
 };
 
 type chainID =
-  | NNChainTestnet
-  | NNChainMainnet;
+  | WenchangTestnet
+  | WenchangMainnet
+  | GuanYuDevnet
+  | GuanYuTestnet
+  | GuanYuPOA
+  | GuanYuMainnet
+  | LaoziTestnet
+  | LaoziMainnet
+  | LaoziPOA
+  | Unknown;
 
-let parseChainID = (chainID: string) => {
-  let lower = chainID->Js.String.toLowerCase;
-  if (Js.String.includes("mainnet", lower) || Js.String.includes("main", lower)) {
-    NNChainMainnet;
-  } else {
-    NNChainTestnet;
-  };
-};
+let parseChainID =
+  fun
+  | "band-wenchang-testnet3" => WenchangTestnet
+  | "band-wenchang-mainnet" => WenchangMainnet
+  | "band-guanyu-devnet5"
+  | "band-guanyu-devnet6"
+  | "band-guanyu-devnet7"
+  | "band-guanyu-devnet8"
+  | "bandchain" => GuanYuDevnet
+  | "band-guanyu-testnet1"
+  | "band-guanyu-testnet2"
+  | "band-guanyu-testnet3"
+  | "band-guanyu-testnet4" => GuanYuTestnet
+  | "band-guanyu-poa" => GuanYuPOA
+  | "band-guanyu-mainnet" => GuanYuMainnet
+  | "band-laozi-testnet1"
+  | "band-laozi-testnet2"
+  | "band-laozi-testnet3"
+  | "band-laozi-testnet4"
+  | "band-laozi-testnet5"
+  | "band-laozi-testnet6" => LaoziTestnet
+  | "laozi-mainnet" => LaoziMainnet
+  | "band-laozi-poa" => LaoziPOA
+  | _ => Unknown;
 
 let getLink =
   fun
-  | NNChainTestnet => "/"
-  | NNChainMainnet => "/";
+  | WenchangTestnet => "https://wenchang-testnet3.cosmoscan.io/"
+  | WenchangMainnet => "https://wenchang-legacy.cosmoscan.io/"
+  | GuanYuMainnet => "https://guanyu-legacy.cosmoscan.io/"
+  | GuanYuDevnet => "https://guanyu-devnet.cosmoscan.io/"
+  | GuanYuTestnet => "https://guanyu-testnet4.cosmoscan.io/"
+  | GuanYuPOA => "https://guanyu-poa.cosmoscan.io/"
+  | LaoziTestnet => "https://laozi-testnet6.cosmoscan.io/"
+  | LaoziMainnet => "https://cosmoscan.io/"
+  | LaoziPOA => "https://laozi-poa.cosmoscan.io/"
+  | Unknown => "";
 
 let getName =
   fun
-  | NNChainTestnet => "NNChain Testnet"
-  | NNChainMainnet => "NNChain Mainnet";
+  | WenchangTestnet => "wenchang-testnet"
+  | WenchangMainnet => "wenchang-mainnet"
+  | GuanYuDevnet => "guanyu-devnet"
+  | GuanYuTestnet => "guanyu-testnet"
+  | GuanYuPOA => "guanyu-poa"
+  | GuanYuMainnet => "guanyu-mainnet"
+  | LaoziTestnet => "laozi-testnet"
+  | LaoziMainnet => "laozi-mainnet"
+  | LaoziPOA => "laozi-poa"
+  | Unknown => "unknown";
 
 [@react.component]
 let make = () =>
@@ -106,22 +135,13 @@ let make = () =>
          ? <Icon name="far fa-angle-up" color={theme.textSecondary} />
          : <Icon name="far fa-angle-down" color={theme.textSecondary} />}
       <div className={Styles.dropdown(show, theme, isDarkMode)}>
-        {[|NNChainTestnet, NNChainMainnet|]
+        {[|LaoziMainnet, LaoziTestnet|]
+         ->Belt.Array.keep(chainID => chainID != currentChainID)
          ->Belt.Array.map(chainID => {
              let name = chainID->getName;
-             let isCurrent = chainID == currentChainID;
-             let isDisabled = chainID == NNChainMainnet;
-             if (isCurrent) {
-               React.null;
-             } else if (isDisabled) {
-               <div key=name className={Styles.linkDisabled(theme)}>
-                 <Text value=name color={theme.textSecondary} nowrap=true weight=Text.Semibold />
-               </div>;
-             } else {
-               <AbsoluteLink href={getLink(chainID)} key=name className={Styles.link(theme)}>
-                 <Text value=name color={theme.textSecondary} nowrap=true weight=Text.Semibold />
-               </AbsoluteLink>;
-             };
+             <AbsoluteLink href={getLink(chainID)} key=name className={Styles.link(theme)}>
+               <Text value=name color={theme.textSecondary} nowrap=true weight=Text.Semibold />
+             </AbsoluteLink>;
            })
          ->React.array}
       </div>

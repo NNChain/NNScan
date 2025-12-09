@@ -16,5 +16,14 @@ module Config = [%graphql
 
 let use = () => {
   let (result, _) = ApolloHooks.useSubscription(Config.definition);
-  result |> Sub.map(_, internal => internal##tracking |> Belt.Array.getExn(_, 0));
+  result
+  |> Sub.map(_, internal => {
+       switch (internal##tracking->Belt.Array.get(0)) {
+       | Some(tracking) => tracking
+       | None => {
+           chainID: "",
+           replayOffset: 0,
+         }
+       }
+     });
 };

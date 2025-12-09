@@ -66,12 +66,12 @@ let make =
       ~showName=true,
     ) => {
   let isValidator = accountType == `validator;
-  let prefix = isValidator ? "bandvaloper" : "band";
+  let prefix = isValidator ? "nncvaloper" : "nnc";
 
   let noPrefixAddress =
     isValidator
-      ? address |> Address.toOperatorBech32 |> Js.String.sliceToEnd(~from=11)
-      : address |> Address.toBech32 |> Js.String.sliceToEnd(~from=4);
+      ? address |> Address.toOperatorBech32 |> Js.String.sliceToEnd(~from=10)
+      : address |> Address.toBech32 |> Js.String.sliceToEnd(~from=3);
 
   let addressLength = noPrefixAddress |> Js.String.length;
 

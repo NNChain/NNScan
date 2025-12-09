@@ -111,10 +111,14 @@ let getUnbondingBalance = (delegatorAddress, currentTime) => {
     |> Sub.map(_, a => {
          switch (a##accounts_by_pk) {
          | Some(account) =>
-           (
-             (account##unbonding_delegations_aggregate##aggregate |> Belt_Option.getExn)##sum
-             |> Belt_Option.getExn
-           )##amount
+           switch (account##unbonding_delegations_aggregate##aggregate) {
+           | Some(aggregate) =>
+             switch (aggregate##sum) {
+             | Some(sum) => sum##amount
+             | None => Coin.newUBANDFromAmount(0.)
+             }
+           | None => Coin.newUBANDFromAmount(0.)
+           }
          | None => Coin.newUBANDFromAmount(0.)
          }
        });

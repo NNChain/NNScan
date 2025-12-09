@@ -47,19 +47,19 @@ describe("Expect Search Functionality to work correctly", () => {
     expect("O123" |> search) |> toEqual(OracleScriptIndexPage(123, OracleScriptRequests))
   );
   test("test validator route", () =>
-    expect("bandvaloper1p40yh3zkmhcv0ecqp3mcazy83sa57rgjde6wec" |> search)
+    expect("nncvaloper1p40yh3zkmhcv0ecqp3mcazy83sa57rgjde6wec" |> search)
     |> toEqual(
          ValidatorIndexPage(
-           "bandvaloper1p40yh3zkmhcv0ecqp3mcazy83sa57rgjde6wec" |> Address.fromBech32,
+           "nncvaloper1p40yh3zkmhcv0ecqp3mcazy83sa57rgjde6wec" |> Address.fromBech32,
            Reports,
          ),
        )
   );
   test("test account route", () =>
-    expect("band1p40yh3zkmhcv0ecqp3mcazy83sa57rgjp07dun" |> search)
+    expect("nnc1p40yh3zkmhcv0ecqp3mcazy83sa57rgjp07dun" |> search)
     |> toEqual(
          AccountIndexPage(
-           "band1p40yh3zkmhcv0ecqp3mcazy83sa57rgjp07dun" |> Address.fromBech32,
+           "nnc1p40yh3zkmhcv0ecqp3mcazy83sa57rgjp07dun" |> Address.fromBech32,
            AccountDelegations,
          ),
        )

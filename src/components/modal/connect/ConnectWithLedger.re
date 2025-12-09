@@ -156,7 +156,7 @@ let make = (~chainID, ~ledgerApp) => {
     <VSpacing size=Spacing.lg />
     {switch (ledgerApp) {
      | Ledger.Cosmos => <InstructionCard title="2. Open Cosmos" url=Images.ledgerStep2Cosmos />
-     | BandChain => <InstructionCard title="2. Open NNChain" url=Images.ledgerStep2BandChain />
+     | BandChain => <InstructionCard title="2. Open BandChain" url=Images.ledgerStep2BandChain />
      }}
     <div className=Styles.resultContainer>
       {switch (result) {

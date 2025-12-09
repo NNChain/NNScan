@@ -179,9 +179,9 @@ let search = (str: string) => {
     switch (str |> int_of_string_opt) {
     | Some(blockID) => Some(BlockIndexPage(blockID))
     | None =>
-      if (str |> Js.String.startsWith("bandvaloper")) {
+      if (str |> Js.String.startsWith("nncvaloper")) {
         Some(ValidatorIndexPage(str |> Address.fromBech32, Reports));
-      } else if (str |> Js.String.startsWith("band")) {
+      } else if (str |> Js.String.startsWith("nnc")) {
         Some(AccountIndexPage(str |> Address.fromBech32, AccountDelegations));
       } else if (len == 64 || str |> Js.String.startsWith("0x") && len == 66) {
         Some(TxIndexPage(str |> Hash.fromHex));

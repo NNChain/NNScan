@@ -145,28 +145,24 @@ module Content = {
                   <div className=Styles.relatedDSContainer>
                     {switch (oracleScriptSub) {
                      | Data({relatedDataSources}) =>
-                       {
-                         Js.log2("OracleScriptIndexPage - relatedDataSources received:", relatedDataSources);
-                         Js.log2("OracleScriptIndexPage - relatedDataSources size:", relatedDataSources->Belt.List.size);
-                         relatedDataSources->Belt.List.size > 0
-                           ? relatedDataSources
-                             ->Belt.List.map(({dataSourceName, dataSourceID}) =>
-                                 <div
-                                   key={dataSourceID |> ID.DataSource.toString}
-                                   className={CssHelper.flexBox()}>
-                                   <TypeID.DataSource id=dataSourceID position=TypeID.Subtitle />
-                                   <Text
-                                     value=dataSourceName
-                                     size=Text.Lg
-                                     block=true
-                                     color={theme.textPrimary}
-                                   />
-                                 </div>
-                               )
-                             ->Belt.List.toArray
-                             ->React.array
-                           : <Text value="TBD" />
-                       }
+                       relatedDataSources->Belt.List.size > 0
+                         ? relatedDataSources
+                           ->Belt.List.map(({dataSourceName, dataSourceID}) =>
+                               <div
+                                 key={dataSourceID |> ID.DataSource.toString}
+                                 className={CssHelper.flexBox()}>
+                                 <TypeID.DataSource id=dataSourceID position=TypeID.Subtitle />
+                                 <Text
+                                   value=dataSourceName
+                                   size=Text.Lg
+                                   block=true
+                                   color={theme.textPrimary}
+                                 />
+                               </div>
+                             )
+                           ->Belt.List.toArray
+                           ->React.array
+                         : <Text value="TBD" />
 
                      | _ => <LoadingCensorBar width=284 height=15 />
                      }}
@@ -218,24 +214,19 @@ module Content = {
             tabs=[|
               {
                 name: "Requests",
-                route:
-                  oracleScriptID |> ID.OracleScript.getRouteWithTab(_, Route.OracleScriptRequests),
+                route: Route.NotFound,
               },
               {
                 name: "OWASM Code",
-                route:
-                  oracleScriptID |> ID.OracleScript.getRouteWithTab(_, Route.OracleScriptCode),
+                route: Route.NotFound,
               },
               {
                 name: "Bridge Code",
-                route:
-                  oracleScriptID
-                  |> ID.OracleScript.getRouteWithTab(_, Route.OracleScriptBridgeCode),
+                route: Route.NotFound,
               },
               {
                 name: "Make New Request",
-                route:
-                  oracleScriptID |> ID.OracleScript.getRouteWithTab(_, Route.OracleScriptExecute),
+                route: Route.NotFound,
               },
             |]
             currentRoute={oracleScriptID |> ID.OracleScript.getRouteWithTab(_, hashtag)}>

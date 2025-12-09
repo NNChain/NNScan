@@ -26,7 +26,7 @@ let make = (~address, ~validator, ~setMsgsOpt) => {
         let%Opt amountValue = amount.value;
 
         let coin = BandChainJS.Coin.create();
-        coin->BandChainJS.Coin.setDenom("uband");
+        coin->BandChainJS.Coin.setDenom("unnc");
         coin->BandChainJS.Coin.setAmount(amountValue |> Js.Float.toString);
         Some([|TxCreator2.Delegate(validator, coin)|]);
       };
@@ -71,7 +71,7 @@ let make = (~address, ~validator, ~setMsgsOpt) => {
              value={balance |> Coin.getBandAmountFromCoins |> Format.fPretty(~digits=6)}
              code=true
            />
-           <Text value=" BAND" />
+           <Text value=" NNC" />
          </div>
        | _ => <LoadingCensorBar width=150 height=18 />
        }}

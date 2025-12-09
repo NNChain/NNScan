@@ -20,11 +20,6 @@ backend faucet {
   .port = "5005";
 }
 
-backend static {
-  .host = "127.0.0.1";
-  .port = "80";
-}
-
 sub vcl_recv {
   if (req.method == "OPTIONS") {
     return (synth(200));
@@ -42,18 +37,10 @@ sub vcl_recv {
   } else if (req.url ~ "^/faucet/"){
     set req.url = regsub(req.url, "^/faucet/", "/");
     set req.backend_hint = faucet;
-  } else if (req.url ~ "^/v1/graphql") {
-    // GraphQL endpoint - route to Hasura
+  } else {
     set req.backend_hint = hasura;
     if (req.http.upgrade ~ "(?i)websocket") {
       return (pipe);
-    }
-  } else {
-    // All other routes (SPA routes like /proposals, /validators, etc.) - serve static files
-    set req.backend_hint = static;
-    // For SPA routing, serve index.html for all non-file requests
-    if (req.url !~ "\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|json)$") {
-      set req.url = "/index.html";
     }
   }
 }

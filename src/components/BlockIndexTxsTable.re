@@ -50,7 +50,7 @@ module RenderBodyMobile = {
       <MobileCard
         values=InfoMobileCard.[
           ("TX Hash", TxHash(txHash, 200)),
-          ("Gas Fee\n(BAND)", Coin({value: gasFee, hasDenom: false})),
+          ("Gas Fee\n(NNC)", Coin({value: gasFee, hasDenom: false})),
           ("Actions", Messages(txHash, messages, success, errMsg)),
         ]
         idx={txHash |> Hash.toHex}
@@ -60,7 +60,7 @@ module RenderBodyMobile = {
       <MobileCard
         values=InfoMobileCard.[
           ("TX Hash", Loading(200)),
-          ("Gas Fee\n(BAND)", Loading(60)),
+          ("Gas Fee\n(NNC)", Loading(60)),
           ("Actions", Loading(230)),
         ]
         idx={reserveIndex |> string_of_int}
@@ -92,7 +92,7 @@ let make = (~txsSub: ApolloHooks.Subscription.variant(array(TxSub.t))) => {
                <div className={CssHelper.flexBox(~justify=`flexEnd, ())}>
                  <Text
                    block=true
-                   value="Gas Fee (BAND)"
+                   value="Gas Fee (NNC)"
                    size=Text.Sm
                    weight=Text.Semibold
                    transform=Text.Uppercase

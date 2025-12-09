@@ -19,7 +19,7 @@ describe("Expect Address to work correctly", () => {
   );
 
   test("should be able to create address from fromBech32", () =>
-    expect("bandvaloper13zmknvkq2sj920spz90g4r9zjan8g58423y76e" |> fromBech32)
+    expect("nncvaloper13zmknvkq2sj920spz90g4r9zjan8g58423y76e" |> fromBech32)
     |> toEqual(Address("88b769b2c05424553e01115e8a8ca297667450f5"))
   );
 
@@ -30,26 +30,26 @@ describe("Expect Address to work correctly", () => {
 
   test("should be able to convert self to toOperatorBech32", () =>
     expect(Address("88b769b2c05424553e01115e8a8ca297667450f5") |> toOperatorBech32)
-    |> toEqual("bandvaloper13zmknvkq2sj920spz90g4r9zjan8g58423y76e")
+    |> toEqual("nncvaloper13zmknvkq2sj920spz90g4r9zjan8g58423y76e")
   );
 
   test("should be able to convert self to toBech32", () =>
     expect(Address("88b769b2c05424553e01115e8a8ca297667450f5") |> toBech32)
-    |> toEqual("band13zmknvkq2sj920spz90g4r9zjan8g584x8qalj")
+    |> toEqual("nnc13zmknvkq2sj920spz90g4r9zjan8g584x8qalj")
   );
 
   test("should be able to convert toBech32 to hex directly", () =>
-    expect("band13zmknvkq2sj920spz90g4r9zjan8g584x8qalj" |> bech32ToHex)
+    expect("nnc13zmknvkq2sj920spz90g4r9zjan8g584x8qalj" |> bech32ToHex)
     |> toEqual("88b769b2c05424553e01115e8a8ca297667450f5")
   );
 
   test("should be able to convert hex to bech32 directly", () =>
     expect("88b769b2c05424553e01115e8a8ca297667450f5" |> hexToBech32)
-    |> toEqual("band13zmknvkq2sj920spz90g4r9zjan8g584x8qalj")
+    |> toEqual("nnc13zmknvkq2sj920spz90g4r9zjan8g584x8qalj")
   );
 
   test("should be able to convert hex to hexToOperatorBech32 directly", () =>
     expect("88b769b2c05424553e01115e8a8ca297667450f5" |> hexToOperatorBech32)
-    |> toEqual("bandvaloper13zmknvkq2sj920spz90g4r9zjan8g58423y76e")
+    |> toEqual("nncvaloper13zmknvkq2sj920spz90g4r9zjan8g58423y76e")
   );
 });

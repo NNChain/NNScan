@@ -55,7 +55,7 @@ let make = (~blockSub: ApolloHooks.Subscription.variant(BlockSub.block_t)) => {
           <Heading value="Resolved Requests" size=Heading.H4 />
           <div className={CssHelper.mt(~size=16, ())}>
             <Text
-              value="Resolved requests are requests that were successfully processed, failed, or timed out by NNChain in this block."
+              value="Resolved requests are requests that were successfully processed, failed, or timed out by BandChain in this block."
             />
           </div>
           <Tab.State tabs=[|{j|On Chain ($onChain)|j}, {j|IBC ($ibc)|j}|] tabIndex setTab>

@@ -35,4 +35,4 @@ let toPubKeyHexOnly = (~with0x=false) =>
 let toBech32 =
   fun
   | PubKey(hexstr) =>
-    hexstr |> JsBuffer.hexToArray |> Bech32.toWords |> Bech32.encode("bandvalconspub");
+    hexstr |> JsBuffer.hexToArray |> Bech32.toWords |> Bech32.encode("nncvalconspub");

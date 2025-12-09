@@ -79,7 +79,7 @@ let make = (~latestBlockSub: Sub.t(BlockSub.t)) => {
   <Row justify=Row.Between>
     <Col col=Col.Three colSm=Col.Six mbSm=16>
       <HighlightCard
-        label="NNC Price"
+        label="Band Price"
         special=true
         valueAndExtraComponentSub={
           let%Sub (_, {financial}, _) = allSub;
@@ -169,7 +169,7 @@ let make = (~latestBlockSub: Sub.t(BlockSub.t)) => {
             <Text
               value={
                 (bondedTokenCount |> Coin.getBandAmountFromCoin |> Format.fPretty)
-                ++ " NNC"
+                ++ " BAND Bonded"
               }
             />,
           )

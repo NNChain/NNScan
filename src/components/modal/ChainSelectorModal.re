@@ -90,7 +90,7 @@ let make = (~targetChain) => {
          <>
            {searchTerm
             |> Js.String.length <= 0
-            || Js.String.includes(searchTerm |> Js.String.toLocaleLowerCase, "band")
+            || Js.String.includes(searchTerm |> Js.String.toLocaleLowerCase, "nnc")
               ? <div
                   key="band"
                   className={Styles.button(targetChain === IBCConnectionQuery.BAND, theme)}
@@ -115,7 +115,7 @@ let make = (~targetChain) => {
                 let keyString =
                   switch (transferableChain) {
                   | IBCConnectionQuery.IBC({channel}) => channel
-                  | BAND => "band"
+                  | BAND => "nnc"
                   };
 
                 let isEqual = {

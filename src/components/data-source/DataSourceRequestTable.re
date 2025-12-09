@@ -103,7 +103,7 @@ module RenderBodyMobile = {
       <MobileCard
         values=InfoMobileCard.[
           ("Request ID", RequestID(id)),
-          ("Fee Earned\n(BAND)", Coin({value: [feeEarned], hasDenom: false})),
+          ("Fee Earned\n(NNC)", Coin({value: [feeEarned], hasDenom: false})),
           ("Oracle Script", OracleScript(oracleScriptID, oracleScriptName)),
           (
             "Report Status",
@@ -129,7 +129,7 @@ module RenderBodyMobile = {
       <MobileCard
         values=InfoMobileCard.[
           ("Request ID", Loading(70)),
-          ("Fee Earned\n(BAND)", Loading(80)),
+          ("Fee Earned\n(NNC)", Loading(80)),
           ("Oracle Script", Loading(136)),
           ("Report Status", Loading(20)),
           ("Timestamp", Loading(166)),

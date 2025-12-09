@@ -58,9 +58,9 @@ module DesktopRender = {
         <Row alignItems=Row.Center marginBottom=22>
           <Col col=Col.Six>
             <div className={CssHelper.flexBox(~align=`center, ())}>
-              <LinkToHome>
-                <img alt="NNChain" src={isDarkMode ? Images.nnscanLogoDark : Images.nnscanLogoLight} className=Styles.bandLogo />
-              </LinkToHome>
+            <LinkToHome>
+              <img alt="NNChain" src={isDarkMode ? Images.nnscanLogoDark : Images.nnscanLogoLight} className=Styles.bandLogo />
+            </LinkToHome>
               <div className=Styles.chainIDContainer> <ChainIDBadge /> </div>
             </div>
           </Col>

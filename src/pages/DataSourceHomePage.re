@@ -123,7 +123,7 @@ module RenderBodyMobile = {
       <MobileCard
         values=InfoMobileCard.[
           ("Data Source", DataSource(id, name)),
-          ("Fee\n(BAND)", Coin({value: fee, hasDenom: false})),
+          ("Fee\n(NNC)", Coin({value: fee, hasDenom: false})),
           ("Description", Text(description)),
           ("Requests", Count(requestCount)),
           (
@@ -141,7 +141,7 @@ module RenderBodyMobile = {
       <MobileCard
         values=InfoMobileCard.[
           ("Data Source", Loading(70)),
-          ("Fee\n(BAND)", Loading(60)),
+          ("Fee\n(NNC)", Loading(60)),
           ("Description", Loading(136)),
           ("Requests", Loading(20)),
           ("Timestamp", Loading(166)),

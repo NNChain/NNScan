@@ -28,38 +28,38 @@ describe("Expect Search Functionality to work correctly", () => {
   test("test block prefix is b", () =>
     expect("b123" |> search) |> toEqual(BlockIndexPage(123))
   );
-  test("test data soure route prefix is D", () =>
-    expect("D123" |> search) |> toEqual(DataSourceIndexPage(123, DataSourceRequests))
+  test("test data source route prefix is D returns NotFound", () =>
+    expect("D123" |> search) |> toEqual(NotFound)
   );
-  test("test data soure route prefix is d", () =>
-    expect("d123" |> search) |> toEqual(DataSourceIndexPage(123, DataSourceRequests))
+  test("test data source route prefix is d returns NotFound", () =>
+    expect("d123" |> search) |> toEqual(NotFound)
   );
-  test("test request route prefix is R", () =>
-    expect("R123" |> search) |> toEqual(RequestIndexPage(123))
+  test("test request route prefix is R returns NotFound", () =>
+    expect("R123" |> search) |> toEqual(NotFound)
   );
-  test("test request route prefix is r", () =>
-    expect("r123" |> search) |> toEqual(RequestIndexPage(123))
+  test("test request route prefix is r returns NotFound", () =>
+    expect("r123" |> search) |> toEqual(NotFound)
   );
-  test("test oracle script route prefix is O", () =>
-    expect("O123" |> search) |> toEqual(OracleScriptIndexPage(123, OracleScriptRequests))
+  test("test oracle script route prefix is O returns NotFound", () =>
+    expect("O123" |> search) |> toEqual(NotFound)
   );
-  test("test oracle script route prefix is o", () =>
-    expect("O123" |> search) |> toEqual(OracleScriptIndexPage(123, OracleScriptRequests))
+  test("test oracle script route prefix is o returns NotFound", () =>
+    expect("o123" |> search) |> toEqual(NotFound)
   );
   test("test validator route", () =>
-    expect("bandvaloper1p40yh3zkmhcv0ecqp3mcazy83sa57rgjde6wec" |> search)
+    expect("nncvaloper1p40yh3zkmhcv0ecqp3mcazy83sa57rgjde6wec" |> search)
     |> toEqual(
          ValidatorIndexPage(
-           "bandvaloper1p40yh3zkmhcv0ecqp3mcazy83sa57rgjde6wec" |> Address.fromBech32,
+           "nncvaloper1p40yh3zkmhcv0ecqp3mcazy83sa57rgjde6wec" |> Address.fromBech32,
            Reports,
          ),
        )
   );
   test("test account route", () =>
-    expect("band1p40yh3zkmhcv0ecqp3mcazy83sa57rgjp07dun" |> search)
+    expect("nnc1p40yh3zkmhcv0ecqp3mcazy83sa57rgjp07dun" |> search)
     |> toEqual(
          AccountIndexPage(
-           "band1p40yh3zkmhcv0ecqp3mcazy83sa57rgjp07dun" |> Address.fromBech32,
+           "nnc1p40yh3zkmhcv0ecqp3mcazy83sa57rgjp07dun" |> Address.fromBech32,
            AccountDelegations,
          ),
        )

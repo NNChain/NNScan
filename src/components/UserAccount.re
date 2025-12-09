@@ -90,7 +90,7 @@ module FaucetBtn = {
                    });
               ();
             }}>
-            {"Get 10 Testnet BAND" |> React.string}
+            {"Get 10 Testnet NNC" |> React.string}
           </Button>
         </div>;
   };
@@ -127,7 +127,7 @@ module Balance = {
           color={theme.textPrimary}
         />
         <HSpacing size=Spacing.sm />
-        <Text value="BAND" weight=Text.Thin color={theme.textPrimary} />
+        <Text value="NNC" weight=Text.Thin color={theme.textPrimary} />
       </div>
     </div>;
   };
@@ -175,11 +175,6 @@ let make = () => {
           <VSpacing size={`px(16)} />
           <div className={Styles.innerProfileCard(theme)}>
             <Balance address />
-            <VSpacing size={`px(16)} />
-            <div className={CssHelper.flexBox(~direction=`row, ~justify=`spaceBetween, ())}>
-              <FaucetBtn address />
-              <SendBtn send />
-            </div>
           </div>
           <DisconnectBtn disconnect />
         </div>

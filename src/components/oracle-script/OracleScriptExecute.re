@@ -399,7 +399,7 @@ module ExecutionPart = {
                      </div>
                    </div>}
               <ClientIDInput clientID setClientID />
-              <ValueInput value=feeLimit setValue=setFeeLimit title="Fee Limit" info="(uband)" />
+              <ValueInput value=feeLimit setValue=setFeeLimit title="Fee Limit" info="(unnc)" />
               <ValueInput
                 value=prepareGas
                 setValue=setPrepareGas

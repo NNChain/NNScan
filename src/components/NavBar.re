@@ -2,17 +2,26 @@ module RenderDesktop = {
   module Styles = {
     open Css;
 
+    let navContainer =
+      style([
+        display(`flex),
+        flexDirection(`row),
+        alignItems(`center),
+      ]);
+
     let nav = (isActive, theme: Theme.t) =>
       style([
         padding3(~top=`px(16), ~h=`zero, ~bottom=`px(12)),
-        marginRight(`px(24)),
+        marginRight(`px(32)),
         cursor(`pointer),
-        fontSize(`px(14)),
+        fontSize(`px(16)),
+        fontWeight(`num(500)),
         hover([color(theme.textPrimary)]),
         active([color(theme.textPrimary)]),
         transition(~duration=400, "all"),
         color(isActive ? theme.textPrimary : theme.textSecondary),
         borderBottom(`px(4), `solid, isActive ? theme.baseBlue : `transparent),
+        whiteSpace(`nowrap),
         lastChild([marginRight(`zero)]),
       ]);
   };
@@ -23,7 +32,7 @@ module RenderDesktop = {
 
     let ({ThemeContext.theme}, _) = React.useContext(ThemeContext.context);
 
-    <div className={CssHelper.flexBox(~justify=`flexStart, ())} id="navigationBar">
+    <div className=Styles.navContainer id="navigationBar">
       {routes
        ->Belt.List.map(((v, route)) =>
            <Link key=v className={Styles.nav(currentRoute == route, theme)} route>
@@ -144,7 +153,6 @@ let make = () => {
     ("Validators", ValidatorHomePage),
     ("Blocks", BlockHomePage),
     ("Transactions", TxHomePage),
-    ("Oracle Scripts", OracleScriptHomePage),
   ];
 
   Media.isMobile() ? <RenderMobile routes /> : <RenderDesktop routes />;

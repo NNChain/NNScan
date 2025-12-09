@@ -67,7 +67,7 @@ let toLoginMethodString = method => {
   switch (method) {
   | Mnemonic => "Mnemonic Phrase"
   | LedgerWithCosmos => "Ledger - Cosmos"
-  | LedgerWithBandChain => "Ledger - NNChain (beta)"
+  | LedgerWithBandChain => "Ledger - NNC (beta)"
   };
 };
 
@@ -90,7 +90,7 @@ module LoginMethod = {
          | LedgerWithBandChain =>
            <div className={Styles.ledgerImageContainer(active)}>
              <img
-               alt="Band Ledger Icon"
+               alt="NNC Ledger Icon"
                src={isDarkMode ? Images.ledgerBandChainDarkIcon : Images.ledgerBandChainLightIcon}
                className=Styles.ledgerIcon
              />
@@ -119,7 +119,7 @@ let make = (~chainID) => {
                  <Text value="Please check that you are visiting" size=Text.Lg />
                  <HSpacing size=Spacing.sm />
                  <Text
-                   value="https://www.nnscan.org"
+                   value="https://www.cosmoscan.io"
                    size=Text.Lg
                    weight=Text.Medium
                    color={theme.textPrimary}

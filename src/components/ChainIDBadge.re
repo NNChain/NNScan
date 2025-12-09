@@ -8,16 +8,14 @@ module Styles = {
       border(`px(1), `solid, isDarkMode ? theme.secondaryBg : theme.textSecondary),
       backgroundColor(theme.secondaryBg),
       padding2(~v=`px(8), ~h=`px(10)),
-      width(`auto),
-      minWidth(`px(95)),
-      maxWidth(`px(120)),
+      minWidth(`px(153)),
       justifyContent(`spaceBetween),
       alignItems(`center),
       position(`relative),
       cursor(`pointer),
       zIndex(5),
-      Media.mobile([padding2(~v=`px(5), ~h=`px(10)), minWidth(`px(85)), maxWidth(`px(110))]),
-      Media.smallMobile([minWidth(`px(75)), maxWidth(`px(100))]),
+      Media.mobile([padding2(~v=`px(5), ~h=`px(10))]),
+      Media.smallMobile([minWidth(`px(90))]),
     ]);
 
   let dropdown = (show, theme: Theme.t, isDarkMode) =>
@@ -62,24 +60,21 @@ type chainID =
   | NNChainTestnet
   | NNChainMainnet;
 
-let parseChainID = (chainID: string) => {
-  let lower = chainID->Js.String.toLowerCase;
-  if (Js.String.includes("mainnet", lower) || Js.String.includes("main", lower)) {
-    NNChainMainnet;
-  } else {
-    NNChainTestnet;
-  };
-};
+let parseChainID =
+  fun
+  | chainID when Js.String.includes("testnet", chainID) || Js.String.includes("test", chainID) => NNChainTestnet
+  | chainID when Js.String.includes("mainnet", chainID) || Js.String.includes("main", chainID) => NNChainMainnet
+  | _ => NNChainTestnet; // Default to testnet
 
 let getLink =
   fun
-  | NNChainTestnet => "/"
-  | NNChainMainnet => "/";
+  | NNChainTestnet => "#" // Stay on current page for testnet
+  | NNChainMainnet => "#"; // Stay on current page for mainnet (disabled)
 
 let getName =
   fun
-  | NNChainTestnet => "Testnet"
-  | NNChainMainnet => "Mainnet";
+  | NNChainTestnet => "NNChain - Testnet"
+  | NNChainMainnet => "NNChain - Mainnet";
 
 [@react.component]
 let make = () =>
@@ -108,24 +103,18 @@ let make = () =>
          ? <Icon name="far fa-angle-up" color={theme.textSecondary} />
          : <Icon name="far fa-angle-down" color={theme.textSecondary} />}
       <div className={Styles.dropdown(show, theme, isDarkMode)}>
-        {[|NNChainTestnet, NNChainMainnet|]
-         ->Belt.Array.map(chainID => {
-             let name = chainID->getName;
-             let isCurrent = chainID == currentChainID;
-             let isDisabled = chainID == NNChainMainnet;
-             if (isCurrent) {
-               React.null;
-             } else if (isDisabled) {
+        {switch (currentChainID) {
+         | NNChainTestnet =>
+           [|NNChainMainnet|]
+           ->Belt.Array.map(chainID => {
+               let name = chainID->getName;
                <div key=name className={Styles.linkDisabled(theme)}>
                  <Text value=name color={theme.textSecondary} nowrap=true weight=Text.Semibold />
                </div>;
-             } else {
-               <AbsoluteLink href={getLink(chainID)} key=name className={Styles.link(theme)}>
-                 <Text value=name color={theme.textSecondary} nowrap=true weight=Text.Semibold />
-               </AbsoluteLink>;
-             };
-           })
-         ->React.array}
+             })
+           ->React.array
+         | NNChainMainnet => React.null
+         }}
       </div>
     </div>
     |> Sub.resolve;

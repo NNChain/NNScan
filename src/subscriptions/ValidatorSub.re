@@ -146,19 +146,21 @@ module MultiConfig = [%graphql
   |}
 ];
 
-module TotalBondedAmountConfig = [%graphql
-  {|
-  subscription TotalBondedAmount{
-    validators_aggregate{
-      aggregate{
-        sum{
-          tokens @bsDecoder(fn: "GraphQLParser.coinWithDefault")
-        }
-      }
-    }
-  }
-  |}
-];
+// COMMENTED OUT - Hasura doesn't support sum on TEXT fields
+// Using client-side calculation instead (see getTotalBondedAmount below)
+// module TotalBondedAmountConfig = [%graphql
+//   {|
+//   subscription TotalBondedAmount{
+//     validators_aggregate{
+//       aggregate{
+//         sum{
+//           tokens @bsDecoder(fn: "GraphQLParser.coinWithDefault")
+//         }
+//       }
+//     }
+//   }
+//   |}
+// ];
 
 module ValidatorCountConfig = [%graphql
   {|
@@ -279,12 +281,19 @@ let countByActive = isActive => {
   |> Sub.map(_, x => x##validators_aggregate##aggregate |> Belt_Option.getExn |> (y => y##count));
 };
 
+// UPDATED: Calculate total bonded tokens client-side (Hasura limitation workaround)
+// Fetches all validators and sums their tokens
 let getTotalBondedAmount = () => {
-  let (result, _) = ApolloHooks.useSubscription(TotalBondedAmountConfig.definition);
-  result
-  |> Sub.map(_, a =>
-       ((a##validators_aggregate##aggregate |> Belt_Option.getExn)##sum |> Belt_Option.getExn)##tokens
-     );
+  let validatorsSub = getList(~isActive=true, ());
+  validatorsSub
+  |> Sub.map(_, validators => {
+       let totalAmount =
+         validators
+         |> Belt.Array.reduce(_, 0., (acc, validator) =>
+              acc +. validator.tokens.amount
+            );
+       Coin.newUBANDFromAmount(totalAmount);
+     });
 };
 
 let getUptime = consensusAddress => {
@@ -299,25 +308,21 @@ let getUptime = consensusAddress => {
     );
   let%Sub x = result;
   let validatorVotes = x##validator_last_100_votes;
-  let signedBlock =
-    validatorVotes
-    ->Belt.Array.keep(each => each##voted == Some(true))
-    ->Belt.Array.get(0)
-    ->Belt.Option.flatMap(each => each##count)
-    ->Belt.Option.mapWithDefault(0, GraphQLParser.int64)
-    |> float_of_int;
-  let missedBlock =
-    validatorVotes
-    ->Belt.Array.keep(each => each##voted == Some(false))
-    ->Belt.Array.get(0)
-    ->Belt.Option.flatMap(each => each##count)
-    ->Belt.Option.mapWithDefault(0, GraphQLParser.int64)
-    |> float_of_int;
-  if (signedBlock == 0. && missedBlock == 0.) {
-    Sub.resolve(None);
-  } else {
-    let uptime = signedBlock /. (signedBlock +. missedBlock) *. 100.;
-    Sub.resolve(Some(uptime));
+  // ✅ Fix: count is a STRING (e.g., "100"), parse it and calculate uptime directly
+  // count represents blocks voted on out of last 100 blocks
+  // uptime = (count / 100) * 100 = count as percentage
+  switch (validatorVotes->Belt.Array.get(0)) {
+  | Some(each) =>
+    switch (each##count) {
+    | Some(countJson) =>
+      // Parse string to int: "100" -> 100
+      let count = countJson->GraphQLParser.int64 |> float_of_int;
+      // Calculate uptime: (count / 100) * 100
+      let uptime = count /. 100. *. 100.;
+      Sub.resolve(Some(uptime));
+    | None => Sub.resolve(Some(0.))
+    }
+  | None => Sub.resolve(Some(0.))
   };
 };
 

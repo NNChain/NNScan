@@ -332,7 +332,7 @@ let make = (~reqID) => {
                          block=true
                          value={
                            (gasFee |> Coin.getBandAmountFromCoins |> Format.fPretty(~digits=6))
-                           ++ " BAND"
+                           ++ " NNC"
                          }
                          size=Text.Lg
                          color={theme.textSecondary}
@@ -403,7 +403,7 @@ let make = (~reqID) => {
                        block=true
                        value={
                          (feeLimit |> Coin.getBandAmountFromCoins |> Format.fPretty(~digits=6))
-                         ++ " BAND"
+                         ++ " NNC"
                        }
                        size=Text.Lg
                        color={theme.textSecondary}
@@ -433,7 +433,7 @@ let make = (~reqID) => {
                      <Text
                        block=true
                        value={
-                         (feeUsed_ |> Format.fPretty(~digits=6)) ++ " BAND " ++ {j|($usedRatio)|j}
+                         (feeUsed_ |> Format.fPretty(~digits=6)) ++ " NNC " ++ {j|($usedRatio)|j}
                        }
                        size=Text.Lg
                        color={theme.textSecondary}
@@ -763,7 +763,7 @@ let make = (~reqID) => {
                          ? <MobileCard
                              values=InfoMobileCard.[
                                ("External ID", Text(externalID)),
-                               ("Fee\n(BAND)", Coin({value: [fee], hasDenom: false})),
+                               ("Fee\n(NNC)", Coin({value: [fee], hasDenom: false})),
                                ("Data Source", DataSource(dataSourceID, name)),
                                ("Param", Text(calldata |> JsBuffer.toUTF8)),
                              ]
@@ -812,7 +812,7 @@ let make = (~reqID) => {
                      ? <MobileCard
                          values=InfoMobileCard.[
                            ("External ID", Loading(60)),
-                           ("Fee\n(BAND)", Loading(60)),
+                           ("Fee\n(NNC)", Loading(60)),
                            ("Data Source", Loading(60)),
                            ("Param", Loading(60)),
                          ]

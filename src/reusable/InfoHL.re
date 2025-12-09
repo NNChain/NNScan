@@ -125,7 +125,7 @@ let make = (~info, ~header, ~isLeft=true) => {
        <div className=Styles.vFlex>
          <Text value={fee |> Format.fPretty} size=Text.Lg weight=Text.Bold code=true />
          <HSpacing size=Spacing.md />
-         <Text value="BAND" size=Text.Lg weight=Text.Regular spacing={Text.Em(0.02)} code=true />
+         <Text value="NNC" size=Text.Lg weight=Text.Regular spacing={Text.Em(0.02)} code=true />
          <HSpacing size=Spacing.xs />
          <HSpacing size=Spacing.xs />
          {switch (infoSub) {

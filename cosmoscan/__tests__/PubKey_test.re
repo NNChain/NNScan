@@ -31,7 +31,7 @@ describe("Expect PubKey to work correctly", () => {
 
   test("should be able to create PubKey from fromBech32", () =>
     expect(
-      "bandvalconspub1addwnpepq0grwz83v8g4s06fusnq5s4jkzxnhgvx67qr5g7v8tx39ur5m8tk7rg2nxj"
+      "nncvalconspub1addwnpepq0grwz83v8g4s06fusnq5s4jkzxnhgvx67qr5g7v8tx39ur5m8tk7rg2nxj"
       |> fromBech32,
     )
     |> toEqual(
@@ -48,16 +48,16 @@ describe("Expect PubKey to work correctly", () => {
     expect(
       [|
         PubKey.fromBech32(
-          "bandvalconspub1addwnpepq0grwz83v8g4s06fusnq5s4jkzxnhgvx67qr5g7v8tx39ur5m8tk7rg2nxj",
+          "nncvalconspub1addwnpepq0grwz83v8g4s06fusnq5s4jkzxnhgvx67qr5g7v8tx39ur5m8tk7rg2nxj",
         ),
         PubKey.fromBech32(
-          "bandvalconspub1addwnpepq06h7wvh5n5pmrejr6t3pyn7ytpwd5c0kmv0wjdfujs847em8dusjl96sxg",
+          "nncvalconspub1addwnpepq06h7wvh5n5pmrejr6t3pyn7ytpwd5c0kmv0wjdfujs847em8dusjl96sxg",
         ),
         PubKey.fromBech32(
-          "bandvalconspub1addwnpepqwj5l74gfj8j77v8st0gh932s3uyu2yys7n50qf6pptjgwnqu2arxkkn82m",
+          "nncvalconspub1addwnpepqwj5l74gfj8j77v8st0gh932s3uyu2yys7n50qf6pptjgwnqu2arxkkn82m",
         ),
         PubKey.fromBech32(
-          "bandvalconspub1addwnpepqfey4c5ul6m5juz36z0dlk8gyg6jcnyrvxm4werkgkmcerx8fn5g2gj9q6w",
+          "nncvalconspub1addwnpepqfey4c5ul6m5juz36z0dlk8gyg6jcnyrvxm4werkgkmcerx8fn5g2gj9q6w",
         ),
       |]
       |> Array.map(toAddress),
@@ -100,7 +100,7 @@ describe("Expect PubKey to work correctly", () => {
       |> toBech32,
     )
     |> toEqual(
-         "bandvalconspub1addwnpepq0grwz83v8g4s06fusnq5s4jkzxnhgvx67qr5g7v8tx39ur5m8tk7rg2nxj",
+         "nncvalconspub1addwnpepq0grwz83v8g4s06fusnq5s4jkzxnhgvx67qr5g7v8tx39ur5m8tk7rg2nxj",
        )
   );
 

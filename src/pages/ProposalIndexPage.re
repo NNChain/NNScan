@@ -501,13 +501,13 @@ let make = (~proposalID) => {
                            />
                            {MomentRe.diff(MomentRe.momentNow(), votingEndTime, `seconds) < 0.
                               ? <Text
-                                  value={(total |> Format.fPretty(~digits=2)) ++ " BAND"}
+                                  value={(total |> Format.fPretty(~digits=2)) ++ " NNC"}
                                   size=Text.Lg
                                   block=true
                                   color={theme.textPrimary}
                                 />
                               : <Text
-                                  value={(endTotalVote |> Format.fPretty(~digits=2)) ++ " BAND"}
+                                  value={(endTotalVote |> Format.fPretty(~digits=2)) ++ " NNC"}
                                   size=Text.Lg
                                   block=true
                                   color={theme.textPrimary}
@@ -632,7 +632,7 @@ let make = (~proposalID) => {
                        <img alt="Success Icon" src=Images.success className=Styles.statusLogo />
                        <HSpacing size=Spacing.sm />
                        // TODO: remove hard-coded later
-                       <Text value="Completed Min Deposit 1,000 BAND" size=Text.Lg />
+                       <Text value="Completed Min Deposit 1,000 NNC" size=Text.Lg />
                      </div>
                    }
                  | _ => <LoadingCensorBar width={isMobile ? 120 : 270} height=15 />

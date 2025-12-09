@@ -68,7 +68,6 @@ let make = (~address, ~hashtag: Route.validator_tab_t) => {
   let (ThemeContext.{theme}, _) = React.useContext(ThemeContext.context);
   let validatorSub = ValidatorSub.get(address);
   let bondedTokenCountSub = ValidatorSub.getTotalBondedAmount();
-  let oracleReportsCountSub = ReportSub.ValidatorReport.count(address);
   // for finding validator rank
   let validatorsSub = ValidatorSub.getList(~isActive=true, ());
 
@@ -144,24 +143,6 @@ let make = (~address, ~hashtag: Route.validator_tab_t) => {
                </div>
              | _ => <LoadingCensorBar width=60 height=20 />
              }}
-            <HSpacing size=Spacing.md />
-            {switch (allSub) {
-             | Data(({oracleStatus}, _, _)) =>
-               <div
-                 className={Css.merge([
-                   CssHelper.flexBox(~justify=`center, ()),
-                   Styles.oracleStatusBox(oracleStatus, theme),
-                 ])}>
-                 <Text value="Oracle" color={theme.white} />
-                 <HSpacing size=Spacing.sm />
-                 <Icon
-                   name={oracleStatus ? "fas fa-check" : "fal fa-times"}
-                   color={theme.white}
-                   size=10
-                 />
-               </div>
-             | _ => <LoadingCensorBar width=75 height=20 />
-             }}
           </div>
         </Col>
       </Row>
@@ -195,7 +176,7 @@ let make = (~address, ~hashtag: Route.validator_tab_t) => {
              | Data(({votingPower}, _, _)) =>
                <>
                  <Text
-                   value={(votingPower /. 1e6 |> Format.fPretty(~digits=0)) ++ " Band"}
+                   value={(votingPower /. 1e6 |> Format.fPretty(~digits=0)) ++ " NNC"}
                    size=Text.Lg
                    block=true
                  />
@@ -243,42 +224,7 @@ let make = (~address, ~hashtag: Route.validator_tab_t) => {
              }}
           </InfoContainer>
         </Col>
-        <Col col=Col.Three colSm=Col.Six mbSm=16>
-          <InfoContainer style=Styles.card>
-            <div className={Css.merge([CssHelper.flexBox(), CssHelper.mb(~size=27, ())])}>
-              <Heading
-                value="Oracle Reports"
-                size=Heading.H4
-                color={theme.textSecondary}
-                weight=Heading.Thin
-              />
-              <HSpacing size=Spacing.xs />
-              <CTooltip
-                tooltipPlacementSm=CTooltip.BottomRight
-                tooltipText="The number of reports this validator has submitted to date">
-                <Icon name="fal fa-info-circle" size=12 color={theme.textSecondary} />
-              </CTooltip>
-            </div>
-            {switch (oracleReportsCountSub) {
-             | Data(oracleReportsCount) =>
-               <Text
-                 value={oracleReportsCount |> Format.iPretty}
-                 size=Text.Xxxl
-                 block=true
-                 color={theme.textPrimary}
-                 transform=Text.Uppercase
-                 weight=Text.Semibold
-               />
-             | _ => <LoadingCensorBar width=100 height=24 />
-             }}
-          </InfoContainer>
-        </Col>
       </Row>
-      {isMobile
-         ? React.null
-         : <Row marginBottom=24>
-             <Col> <ValidatorStakingInfo validatorAddress=address /> </Col>
-           </Row>}
       // Validator Information
       <Row marginBottom=24>
         <Col>
@@ -423,101 +369,6 @@ let make = (~address, ~hashtag: Route.validator_tab_t) => {
           </InfoContainer>
         </Col>
       </Row>
-      // Bondded token & staking section
-      <Row marginBottom=24>
-        <Col col=Col.Four mbSm=24>
-          <InfoContainer style=Styles.bondedTokenContainer>
-            <div className={Css.merge([CssHelper.flexBox()])}>
-              <Heading value="Bonded Token" size=Heading.H4 />
-              <HSpacing size={`px(4)} />
-              <CTooltip tooltipText="Total amount of tokens current staked across all validators">
-                <Icon name="fal fa-info-circle" size=10 />
-              </CTooltip>
-            </div>
-            <SeperatedLine mt=32 mb=24 />
-            <div
-              className={Css.merge([
-                CssHelper.flexBox(~justify=`center, ()),
-                Styles.chartWrapper,
-              ])}>
-              {switch (allSub) {
-               | Data(({operatorAddress}, _, _)) => <HistoricalBondedGraph operatorAddress />
-               | _ => <LoadingCensorBar.CircleSpin height=180 />
-               }}
-            </div>
-          </InfoContainer>
-        </Col>
-        <Col col=Col.Four mbSm=24>
-          <InfoContainer style=Styles.customContainer>
-            <div className={CssHelper.flexBox()}>
-              <Heading value="Block Uptime" size=Heading.H4 />
-              <HSpacing size=Spacing.xs />
-              <CTooltip tooltipText="The validator's non-oracle performance">
-                <Icon name="fal fa-info-circle" size=10 />
-              </CTooltip>
-            </div>
-            <SeperatedLine mt=32 mb=24 />
-            <div
-              className={Css.merge([
-                CssHelper.flexBox(~justify=`center, ()),
-                Styles.chartWrapper,
-              ])}>
-              {switch (allSub) {
-               | Data(({consensusAddress}, _, _)) => <BlockUptimeChart consensusAddress />
-               | _ => <LoadingCensorBar.CircleSpin height=90 />
-               }}
-            </div>
-          </InfoContainer>
-        </Col>
-        <Col col=Col.Four>
-          <InfoContainer style=Styles.customContainer>
-            <div className={CssHelper.flexBox()}>
-              <Heading value="Oracle Data Report" size=Heading.H4 />
-              <HSpacing size=Spacing.xs />
-              <CTooltip tooltipText="Last 90 days of Report" align=`center>
-                <Icon name="fal fa-info-circle" size=10 />
-              </CTooltip>
-            </div>
-            <SeperatedLine mt=32 mb=24 />
-            <div
-              className={Css.merge([
-                CssHelper.flexBox(~justify=`center, ()),
-                Styles.chartWrapper,
-              ])}>
-              {switch (allSub) {
-               | Data(({oracleStatus}, _, _)) =>
-                 <OracleDataReportChart oracleStatus operatorAddress=address />
-               | _ => <LoadingCensorBar.CircleSpin height=90 />
-               }}
-            </div>
-          </InfoContainer>
-        </Col>
-      </Row>
-      <Table>
-        <Tab.Route
-          tabs=[|
-            {name: "Oracle Reports", route: Route.ValidatorIndexPage(address, Route.Reports)},
-            {name: "Delegators", route: Route.ValidatorIndexPage(address, Route.Delegators)},
-            {
-              name: "Proposed Blocks",
-              route: Route.ValidatorIndexPage(address, Route.ProposedBlocks),
-            },
-            {name: "Reporters", route: Route.ValidatorIndexPage(address, Route.Reporters)},
-          |]
-          currentRoute={Route.ValidatorIndexPage(address, hashtag)}>
-          {switch (hashtag) {
-           | Reports => <ReportsTable address />
-           | Delegators => <DelegatorsTable address />
-           | ProposedBlocks =>
-             switch (validatorSub) {
-             | Data(validator) =>
-               <ProposedBlocksTable consensusAddress={Some(validator.consensusAddress)} />
-             | _ => <ProposedBlocksTable consensusAddress=None />
-             }
-           | Reporters => <ReportersTable address />
-           }}
-        </Tab.Route>
-      </Table>
     </div>
   </Section>;
 };

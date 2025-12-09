@@ -100,7 +100,7 @@ let make = (~accountAddress: Address.t) => {
              <Col col=Col.Two>
                <Text
                  block=true
-                 value="Gas Fee (BAND)"
+                 value="Gas Fee (NNC)"
                  weight=Text.Semibold
                  size=Text.Sm
                  transform=Text.Uppercase

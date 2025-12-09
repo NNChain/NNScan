@@ -19,7 +19,7 @@ let getPath = (ledgerApp, accountIndex) => {
 let getAppName =
   fun
   | Cosmos => "Cosmos"
-  | BandChain => "NNChain";
+  | BandChain => "BandChain";
 
 // TODO: hard-coded minimum version
 let getRequiredVersion =

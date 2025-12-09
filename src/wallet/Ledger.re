@@ -19,7 +19,7 @@ let getPath = (ledgerApp, accountIndex) => {
 let getAppName =
   fun
   | Cosmos => "Cosmos"
-  | BandChain => "NNChain";
+  | BandChain => "BandChain";
 
 // TODO: hard-coded minimum version
 let getRequiredVersion =
@@ -31,7 +31,7 @@ let create = (ledgerApp, accountIndex) => {
   // TODO: handle interaction timeout later
   let timeout = 10000;
   let path = getPath(ledgerApp, accountIndex);
-  let prefix = "band";
+  let prefix = "nnc";
 
   let%Promise transport =
     Os.isWindows()
@@ -77,7 +77,7 @@ let create = (ledgerApp, accountIndex) => {
 };
 
 let getAddressAndPubKey = x => {
-  let prefix = "band";
+  let prefix = "nnc";
   let responsePromise = LedgerJS.getAddressAndPubKey(x.app, x.path, prefix);
   let%Promise response = responsePromise;
 

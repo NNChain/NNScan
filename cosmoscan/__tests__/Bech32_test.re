@@ -163,16 +163,16 @@ describe("Expect Bech32 to work correctly", () => {
         24,
         14,
       |]
-      |> encode("bandvaloper"),
+      |> encode("nncvaloper"),
     )
-    |> toBe("bandvaloper1fwffdxysc5a0hu0falsq4lyneucj05cwryzfp0")
+    |> toBe("nncvaloper1fwffdxysc5a0hu0falsq4lyneucj05cwryzfp0")
   );
 
   test("should be able to decode correctly", () =>
-    expect("bandvaloper1fwffdxysc5a0hu0falsq4lyneucj05cwryzfp0"->decode)
+    expect("nncvaloper1fwffdxysc5a0hu0falsq4lyneucj05cwryzfp0"->decode)
     |> toEqual(
          Bech32.decoded_t(
-           ~prefix="bandvaloper",
+           ~prefix="nncvaloper",
            ~words=[|
              9,
              14,

@@ -5,8 +5,7 @@ exception WrongPrefixAddress(string);
 
 let validateBandPrefix = bech32Address => {
   let prefix = bech32Address->Bech32.prefixGet;
-  prefix == "band" || prefix == "bandvaloper" || prefix == "bandvalconspub" 
-  || prefix == "nnc" || prefix == "nncvaloper" || prefix == "nncvalconspub";
+  prefix == "nnc" || prefix == "nncvaloper" || prefix == "nncvaloper" || prefix == "nncvalconspub";
 };
 
 let fromBech32 = bech32str => {

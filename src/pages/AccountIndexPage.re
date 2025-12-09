@@ -164,7 +164,7 @@ module TotalBalanceRender = {
         />
         <HSpacing size=Spacing.sm />
         <Text
-          value={" USD " ++ "($" ++ (usdPrice |> Js.Float.toString) ++ " / BAND)"}
+          value={" USD " ++ "($" ++ (usdPrice |> Js.Float.toString) ++ " / NNC)"}
           size=Text.Lg
           weight=Text.Thin
         />
@@ -231,229 +231,90 @@ let make = (~address, ~hashtag: Route.account_tab_t) => {
       </Row>
       <Row marginBottom=24 marginBottomSm=16>
         <Col col=Col.Six>
-          <div
-            className={Css.merge([
-              CssHelper.flexBox(~direction=`column, ~justify=`spaceBetween, ~align=`stretch, ()),
-              Styles.infoLeft,
-            ])}>
-            <InfoContainer style={Css.merge([CssHelper.mb(~size=30, ())])}>
-              <div
-                className={Css.merge([
-                  CssHelper.flexBox(~direction=`column, ~justify=`start, ~align=`flexStart, ()),
-                ])}>
-                <div className=Styles.addressContainer>
-                  <Heading size=Heading.H4 value="Address" marginBottom=20 />
+          <InfoContainer style={Css.merge([CssHelper.mb(~size=30, ())])}>
+            <div
+              className={Css.merge([
+                CssHelper.flexBox(~direction=`column, ~justify=`start, ~align=`flexStart, ()),
+              ])}>
+              <div className=Styles.addressContainer>
+                <Heading size=Heading.H4 value="Address" marginBottom=20 />
+                <div className={CssHelper.flexBox()}>
+                  <AddressRender
+                    address
+                    position=AddressRender.Subtitle
+                    copy=true
+                    clickable=false
+                    showName=false
+                  />
+                </div>
+              </div>
+              {switch (address->VerifiedAccount.getNameOpt) {
+               | Some(name) =>
+                 <div className={Css.merge([CssHelper.flexBox(), CssHelper.mt(~size=8, ())])}>
+                   <Text value={j| ($name) |j} size=Text.Lg block=true />
+                 </div>
+               | None => React.null
+               }}
+              {switch (topPartAllSub) {
+               | Data((_, {counterpartyAddress, counterpartyChainID}, _, _, _)) =>
+                 <>
+                   {switch (counterpartyAddress) {
+                    | Some(address) =>
+                      <div
+                        className={Css.merge([
+                          CssHelper.mt(~size=20, ()),
+                          CssHelper.mb(~size=20, ()),
+                        ])}>
+                        <Heading size=Heading.H4 value="Counter Party Address" marginBottom=8 />
+                        <Text value={Address.toHex(address)} size=Text.Lg block=true />
+                      </div>
+                    | None => React.null
+                    }}
+                   {switch (counterpartyChainID) {
+                    | Some(chainID) =>
+                      <div className={Css.merge([CssHelper.mb(~size=20, ())])}>
+                        <Heading size=Heading.H4 value="Counter Party Chain ID" marginBottom=8 />
+                        <Text value=chainID size=Text.Lg block=true />
+                      </div>
+                    | None => React.null
+                    }}
+                 </>
+               | _ => <LoadingCensorBar width=90 height=26 />
+               }}
+              <div className={Css.merge([CssHelper.flexBox(), Styles.buttonContainer])}>
+                <Button variant=Button.Outline py=5 onClick={_ => {qrCode()}}>
                   <div className={CssHelper.flexBox()}>
-                    <AddressRender
-                      address
-                      position=AddressRender.Subtitle
-                      copy=true
-                      clickable=false
-                      showName=false
-                    />
+                    <Icon size=20 name="far fa-qrcode" mr=8 />
+                    {"QR Code" |> React.string}
                   </div>
-                </div>
-                {switch (address->VerifiedAccount.getNameOpt) {
-                 | Some(name) =>
-                   <div className={Css.merge([CssHelper.flexBox(), CssHelper.mt(~size=8, ())])}>
-                     <Text value={j| ($name) |j} size=Text.Lg block=true />
-                   </div>
-                 | None => React.null
-                 }}
-                {switch (topPartAllSub) {
-                 | Data((_, {counterpartyAddress, counterpartyChainID}, _, _, _)) =>
-                   <>
-                     {switch (counterpartyAddress) {
-                      | Some(address) =>
-                        <div
-                          className={Css.merge([
-                            CssHelper.mt(~size=20, ()),
-                            CssHelper.mb(~size=20, ()),
-                          ])}>
-                          <Heading size=Heading.H4 value="Counter Party Address" marginBottom=8 />
-                          <Text value={Address.toHex(address)} size=Text.Lg block=true />
-                        </div>
-                      | None => React.null
-                      }}
-                     {switch (counterpartyChainID) {
-                      | Some(chainID) =>
-                        <div className={Css.merge([CssHelper.mb(~size=20, ())])}>
-                          <Heading size=Heading.H4 value="Counter Party Chain ID" marginBottom=8 />
-                          <Text value=chainID size=Text.Lg block=true />
-                        </div>
-                      | None => React.null
-                      }}
-                   </>
-                 | _ => <LoadingCensorBar width=90 height=26 />
-                 }}
-                <div className={Css.merge([CssHelper.flexBox(), Styles.buttonContainer])}>
-                  <Button variant=Button.Outline py=5 onClick={_ => {qrCode()}}>
-                    <div className={CssHelper.flexBox()}>
-                      <Icon size=20 name="far fa-qrcode" mr=8 />
-                      {"QR Code" |> React.string}
-                    </div>
-                  </Button>
-                  {isMobile
-                     ? React.null
-                     : {
-                       switch (topPartAllSub, accountOpt) {
-                       | (Data(_), Some({address: sender}))
-                           when Address.isEqual(sender, address) => React.null
-                       | (Data((_, _, _, _, {chainID})), _) =>
-                         <Button variant=Button.Outline onClick={_ => {send(chainID)}}>
-                           {"Send NNC" |> React.string}
-                         </Button>
-                       | _ => <LoadingCensorBar width=90 height=26 />
-                       };
-                     }}
-                </div>
+                </Button>
               </div>
-            </InfoContainer>
-            <InfoContainer>
-              <div
-                className={Css.merge([
-                  CssHelper.flexBox(~direction=`column, ~justify=`center, ~align=`flexStart, ()),
-                  Styles.detailContainer,
-                ])}>
-                <Heading size=Heading.H4 value="Total Balance" marginBottom=24 />
-                {switch (topPartAllSub) {
-                 | Data(({financial}, {balance, commission}, {amount, reward}, unbonding, _)) =>
-                   <TotalBalanceRender
-                     amountBAND={sumBalance(balance, amount, unbonding, reward, commission)}
-                     usdPrice={financial.usdPrice}
-                   />
-
-                 | _ =>
-                   <>
-                     <LoadingCensorBar width=200 height=22 mb=10 />
-                     <LoadingCensorBar width=220 height=16 />
-                   </>
-                 }}
-              </div>
-            </InfoContainer>
-          </div>
-        </Col>
-        <Col col=Col.Six>
-          <InfoContainer style={Styles.autoHeight(`percent(100.))}>
-            <Heading value="Balance" size=Heading.H4 marginBottom=40 />
-            <div className=Styles.amountBoxes>
-              {switch (topPartAllSub) {
-               | Data((_, {balance, commission}, {amount, reward}, unbonding, _)) =>
-                 let availableBalance = balance->Coin.getBandAmountFromCoins;
-                 let balanceAtStakeAmount = amount->Coin.getBandAmountFromCoin;
-                 let unbondingAmount = unbonding->Coin.getBandAmountFromCoin;
-                 let rewardAmount = reward->Coin.getBandAmountFromCoin;
-                 let commissionAmount = commission->Coin.getBandAmountFromCoins;
-                 <AccountBarChart
-                   availableBalance
-                   balanceAtStake=balanceAtStakeAmount
-                   reward=rewardAmount
-                   unbonding=unbondingAmount
-                   commission=commissionAmount
-                 />;
-               | _ => <LoadingCensorBar fullWidth=true height=12 radius=50 />
-               }}
-              <div>
-                {switch (topPartAllSub) {
-                 | Data(({financial}, {balance}, _, _, _)) =>
-                   <BalanceDetails
-                     title="Available"
-                     description="Balance available to send, delegate, etc"
-                     amount={balance->Coin.getBandAmountFromCoins}
-                     usdPrice={financial.usdPrice}
-                     color=Theme.baseBlue
-                   />
-                 | _ => <BalanceDetailLoading />
-                 }}
-              </div>
-              <div>
-                {switch (topPartAllSub) {
-                 | Data(({financial}, _, {amount}, _, _)) =>
-                   <BalanceDetails
-                     title="Delegated"
-                     description="Balance currently delegated to validators"
-                     amount={amount->Coin.getBandAmountFromCoin}
-                     usdPrice={financial.usdPrice}
-                     color=Theme.lightBlue
-                   />
-                 | _ => <BalanceDetailLoading />
-                 }}
-              </div>
-              <div>
-                {switch (topPartAllSub) {
-                 | Data(({financial}, _, _, unbonding, _)) =>
-                   <BalanceDetails
-                     title="Unbonding"
-                     description="Amount undelegated from validators awaiting 21 days lockup period"
-                     amount={unbonding->Coin.getBandAmountFromCoin}
-                     usdPrice={financial.usdPrice}
-                     color=Theme.lightenBlue
-                   />
-                 | _ => <BalanceDetailLoading />
-                 }}
-              </div>
-              <div>
-                {switch (topPartAllSub) {
-                 | Data(({financial}, _, {reward}, _, _)) =>
-                   <BalanceDetails
-                     title="Reward"
-                     description="Reward from staking to validators"
-                     amount={reward->Coin.getBandAmountFromCoin}
-                     usdPrice={financial.usdPrice}
-                     color=Theme.darkenBlue
-                     isCountup=true
-                   />
-                 | _ => <BalanceDetailLoading />
-                 }}
-              </div>
-              {switch (topPartAllSub) {
-               | Data(({financial}, {commission}, _, _, _)) =>
-                 let commissionAmount = commission->Coin.getBandAmountFromCoins;
-                 commissionAmount == 0.
-                   ? React.null
-                   : <div>
-                       <BalanceDetails
-                         title="Commission"
-                         description="Reward commission from delegator's reward"
-                         amount=commissionAmount
-                         usdPrice={financial.usdPrice}
-                         isCountup=true
-                         color=Theme.darkenBlue
-                       />
-                     </div>;
-
-               | _ => React.null
-               }}
             </div>
           </InfoContainer>
         </Col>
-      </Row>
-      <Row marginBottom=24 marginBottomSm=16>
-        <Col>
-          <Table>
-            <Tab.Route
-              tabs=[|
-                {
-                  name: "Delegations",
-                  route: Route.AccountIndexPage(address, Route.AccountDelegations),
-                },
-                {
-                  name: "Unbonding",
-                  route: Route.AccountIndexPage(address, Route.AccountUnbonding),
-                },
-                {
-                  name: "Redelegate",
-                  route: Route.AccountIndexPage(address, Route.AccountRedelegate),
-                },
-              |]
-              currentRoute={Route.AccountIndexPage(address, hashtag)}>
-              {switch (hashtag) {
-               | AccountDelegations => <AccountIndexDelegations address />
-               | AccountUnbonding => <AccountIndexUnbonding address />
-               | AccountRedelegate => <AccountIndexRedelegate address />
+        <Col col=Col.Six>
+          <InfoContainer>
+            <div
+              className={Css.merge([
+                CssHelper.flexBox(~direction=`column, ~justify=`center, ~align=`flexStart, ()),
+                Styles.detailContainer,
+              ])}>
+              <Heading size=Heading.H4 value="Total Balance" marginBottom=24 />
+              {switch (topPartAllSub) {
+               | Data(({financial}, {balance, commission}, {amount, reward}, unbonding, _)) =>
+                 <TotalBalanceRender
+                   amountBAND={sumBalance(balance, amount, unbonding, reward, commission)}
+                   usdPrice={financial.usdPrice}
+                 />
+
+               | _ =>
+                 <>
+                   <LoadingCensorBar width=200 height=22 mb=10 />
+                   <LoadingCensorBar width=220 height=16 />
+                 </>
                }}
-            </Tab.Route>
-          </Table>
+            </div>
+          </InfoContainer>
         </Col>
       </Row>
       <Row>

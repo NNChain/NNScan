@@ -53,7 +53,7 @@ let make = () => {
         </Col>
         <Col col=Col.Six>
           <div className={CssHelper.flexBox(~justify={isMobile ? `center : `flexEnd}, ())}>
-            <Text block=true value="NNScan" weight=Text.Semibold color={theme.white} />
+            <Text block=true value="CosmoScan" weight=Text.Semibold color={theme.white} />
             <HSpacing size={`px(5)} />
             <Icon name="far fa-copyright" color={theme.white} />
             <HSpacing size={`px(5)} />

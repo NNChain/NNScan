@@ -56,7 +56,7 @@ module RenderBodyMobile = {
         values=InfoMobileCard.[
           ("Delegator", Address(delegatorAddress, 149, `account)),
           ("Shares (%)", Float(sharePercentage, Some(4))),
-          ("Amount\n(BAND)", Coin({value: [amount], hasDenom: false})),
+          ("Amount\n(NNC)", Coin({value: [amount], hasDenom: false})),
         ]
         key={delegatorAddress |> Address.toBech32}
         idx={delegatorAddress |> Address.toBech32}
@@ -66,7 +66,7 @@ module RenderBodyMobile = {
         values=InfoMobileCard.[
           ("Delegator", Loading(150)),
           ("Shares (%)", Loading(60)),
-          ("Amount\n(BAND)", Loading(80)),
+          ("Amount\n(NNC)", Loading(80)),
         ]
         key={reserveIndex |> string_of_int}
         idx={reserveIndex |> string_of_int}

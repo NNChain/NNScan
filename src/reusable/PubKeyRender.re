@@ -29,11 +29,11 @@ module Styles = {
 
 [@react.component]
 let make = (~pubKey, ~position=Text, ~alignLeft=false, ~display=`flex) => {
-  let noPrefixAddress = pubKey |> PubKey.toBech32 |> Js.String.sliceToEnd(~from=14);
+  let noPrefixAddress = pubKey |> PubKey.toBech32 |> Js.String.sliceToEnd(~from=13);
 
   <div className={Styles.container(display)}>
     <Text
-      value={"bandvalconspub" ++ noPrefixAddress}
+      value={"nncvalconspub" ++ noPrefixAddress}
       size={position |> pubKeyFontSize}
       code=true
       align=?{alignLeft ? None : Some(Text.Right)}

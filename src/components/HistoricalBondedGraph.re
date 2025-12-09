@@ -115,7 +115,7 @@ function(data, isDarkMode) {
           callbacks: {
             title: function(tooltipItem, data) {
               var title = (parseInt(tooltipItem[0].value)).toLocaleString();
-              return title + " Bonded BAND";
+              return title + " Bonded NNC";
             },
             label: function(tooltipItem, data) {
               let date = new Date(tooltipItem.label);

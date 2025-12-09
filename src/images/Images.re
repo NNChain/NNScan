@@ -44,6 +44,7 @@
 
 // HomePage
 [@bs.module] external nncCoin: string = "./nnc_coin.png";
+[@bs.module] external bandToken: string = "./band-token.svg";
 [@bs.module] external bgLeftLight: string = "./bgleft-light.png";
 [@bs.module] external bgLeftDark: string = "./bgleft-dark.png";
 

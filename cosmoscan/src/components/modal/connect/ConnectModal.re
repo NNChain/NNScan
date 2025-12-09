@@ -67,7 +67,7 @@ let toLoginMethodString = method => {
   switch (method) {
   | Mnemonic => "Mnemonic Phrase"
   | LedgerWithCosmos => "Ledger - Cosmos"
-  | LedgerWithBandChain => "Ledger - NNChain (beta)"
+  | LedgerWithBandChain => "Ledger - Band (beta)"
   };
 };
 

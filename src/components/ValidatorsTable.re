@@ -95,45 +95,32 @@ module RenderBody = {
              </>
            }}
         </Col>
-        <Col col={isLogin ? Col.Three : Two}>
-          <div className={CssHelper.flexBox(~justify=isLogin ? `spaceBetween : `center, ())}>
-            <div className=Styles.oracleStatus>
-              {switch (validatorSub) {
-               | Data({oracleStatus}) =>
-                 <img
-                   alt="Status Icon"
-                   src={oracleStatus ? Images.success : Images.fail}
-                   className=Styles.logo
-                 />
-               | _ => <LoadingCensorBar width=20 height=20 radius=50 />
-               }}
-            </div>
-            {isLogin
-               ? <div className={CssHelper.flexBox(~justify=`flexEnd, ())}>
-                   {switch (validatorSub) {
-                    | Data({operatorAddress, commission}) =>
-                      let delegate = () =>
-                        operatorAddress->SubmitMsg.Delegate->SubmitTx->OpenModal->dispatchModal;
-                      <Button
-                        variant=Button.Outline
-                        onClick={_ => {
-                          commission == 100.
-                            ? Webapi.Dom.(
-                                window
-                                |> Window.alert(
-                                     "Delegation to foundation validator nodes is not advised.",
-                                   )
-                              )
-                            : delegate()
-                        }}>
-                        {"Delegate" |> React.string}
-                      </Button>;
-                    | _ => <LoadingCensorBar width=90 height=33 radius=8 />
-                    }}
-                 </div>
-               : React.null}
-          </div>
-        </Col>
+        {isLogin
+           ? <Col col=Col.Three>
+               <div className={CssHelper.flexBox(~justify=`flexEnd, ())}>
+                 {switch (validatorSub) {
+                  | Data({operatorAddress, commission}) =>
+                    let delegate = () =>
+                      operatorAddress->SubmitMsg.Delegate->SubmitTx->OpenModal->dispatchModal;
+                    <Button
+                      variant=Button.Outline
+                      onClick={_ => {
+                        commission == 100.
+                          ? Webapi.Dom.(
+                              window
+                              |> Window.alert(
+                                   "Delegation to foundation validator nodes is not advised.",
+                                 )
+                            )
+                          : delegate()
+                      }}>
+                      {"Delegate" |> React.string}
+                    </Button>;
+                  | _ => <LoadingCensorBar width=90 height=33 radius=8 />
+                  }}
+               </div>
+             </Col>
+           : React.null}
       </Row>
     </TBody>;
   };
@@ -144,7 +131,7 @@ module RenderBodyMobile = {
   let make =
       (~rank, ~validatorSub: ApolloHooks.Subscription.variant(ValidatorSub.t), ~votingPower) => {
     switch (validatorSub) {
-    | Data({operatorAddress, moniker, identity, tokens, commission, uptime, oracleStatus}) =>
+    | Data({operatorAddress, moniker, identity, tokens, commission, uptime}) =>
       <MobileCard
         values=InfoMobileCard.[
           ("Rank", Count(rank)),
@@ -152,7 +139,6 @@ module RenderBodyMobile = {
           ("Voting\nPower", VotingPower(tokens, votingPower)),
           ("Commission", Float(commission, Some(2))),
           ("Uptime (%)", Uptime(uptime)),
-          ("Oracle Status", Status(oracleStatus)),
         ]
         key={rank |> string_of_int}
         idx={rank |> string_of_int}
@@ -165,7 +151,6 @@ module RenderBodyMobile = {
           ("Voting\nPower", Loading(166)),
           ("Commission", Loading(136)),
           ("Uptime (%)", Loading(200)),
-          ("Oracle Status", Loading(20)),
         ]
         key={rank |> string_of_int}
         idx={rank |> string_of_int}
@@ -395,17 +380,6 @@ let make = (~allSub, ~searchTerm, ~sortedBy, ~setSortedBy) => {
                  sortedBy
                  isRight=false
                  tooltipItem="Percentage of the blocks that the validator is active for out of the last 100"
-               />
-             </Col>
-             <Col col=Col.Two>
-               <Text
-                 block=true
-                 transform=Text.Uppercase
-                 size=Text.Sm
-                 weight=Text.Semibold
-                 align={isLogin ? Text.Left : Center}
-                 value="Oracle Status"
-                 tooltipItem={"The validator's Oracle status" |> React.string}
                />
              </Col>
            </Row>

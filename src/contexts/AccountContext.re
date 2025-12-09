@@ -52,7 +52,7 @@ let reducer = state =>
     | Some({address, wallet, pubKey, chainID}) =>
       let feeLimitCoin = BandChainJS.Coin.create();
       feeLimitCoin->BandChainJS.Coin.setAmount(feeLimit);
-      feeLimitCoin->BandChainJS.Coin.setDenom("uband");
+      feeLimitCoin->BandChainJS.Coin.setDenom("unnc");
 
       let pubKeyHex = pubKey->PubKey.toHex;
       let wrappedPubKey = pubKeyHex->BandChainJS.PubKey.fromHex;

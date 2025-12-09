@@ -10,7 +10,7 @@ module RawDataSourceID = {
   type tab_t = Route.data_source_tab_t;
   let prefix = "#D";
   let color = Theme.baseBlue;
-  let route = (id, tab) => Route.DataSourceIndexPage(id, tab);
+  let route = (id, _) => Route.NotFound;
   let defaultTab = Route.DataSourceRequests;
 };
 
@@ -18,7 +18,7 @@ module RawOracleScriptID = {
   type tab_t = Route.oracle_script_tab_t;
   let prefix = "#O";
   let color = Theme.baseBlue;
-  let route = (id, tab) => Route.OracleScriptIndexPage(id, tab);
+  let route = (id, _) => Route.NotFound;
   let defaultTab = Route.OracleScriptRequests;
 };
 
@@ -26,7 +26,7 @@ module RawRequestID = {
   type tab_t = unit;
   let prefix = "#R";
   let color = Theme.baseBlue;
-  let route = (id, _) => Route.RequestIndexPage(id);
+  let route = (id, _) => Route.NotFound;
   let defaultTab = ();
 };
 
@@ -34,7 +34,7 @@ module RawProposalID = {
   type tab_t = unit;
   let prefix = "#P";
   let color = Theme.baseBlue;
-  let route = (id, _) => Route.ProposalIndexPage(id);
+  let route = (id, _) => Route.NotFound;
   let defaultTab = ();
 };
 
